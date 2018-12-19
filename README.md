@@ -5,6 +5,15 @@ An Integrated package for Hi-C Data Analysis
 ## Getting Started
 
 ## Installation
+
+### Dependencies
+- The bowtie2 mapper
+- Python (>3.5) with pysam (>=0.8.3), bx-python(>=0.5.0), numpy(>=1.8.2), and scipy(>=0.15.1) libraries.
+- Note that the current version does not support python 3
+- R with the RColorBrewer and ggplot2 (>2.2.1) packages
+- g++ compiler
+- samtools (>1.1)
+- Unix sort (which support -V option) is required ! For Mac OS user, please install the GNU core utilities !
 ```python
 pip install hi-cpack
 ```
