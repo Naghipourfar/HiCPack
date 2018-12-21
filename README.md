@@ -1,4 +1,4 @@
-# Hi-CPack [![PyPI version](https://badge.fury.io/py/seqlearner.svg)](https://badge.fury.io/py/seqlearner) [![Build Status](https://travis-ci.org/EliHei/SeqLearn.svg?branch=master)](https://travis-ci.org/EliHei/SeqLearn) [![Documentation Status](https://readthedocs.org/projects/seqlearner/badge/?version=latest)](https://seqlearner.readthedocs.io/en/latest/?badge=latest)
+# HiC-Pack [![PyPI version](https://badge.fury.io/py/seqlearner.svg)](https://badge.fury.io/py/seqlearner) [![Build Status](https://travis-ci.org/EliHei/SeqLearn.svg?branch=master)](https://travis-ci.org/EliHei/SeqLearn) [![Documentation Status](https://readthedocs.org/projects/seqlearner/badge/?version=latest)](https://seqlearner.readthedocs.io/en/latest/?badge=latest)
 An Integrated package for Hi-C Data Analysis
 
 ## Introduction
@@ -14,8 +14,15 @@ An Integrated package for Hi-C Data Analysis
 - g++ compiler
 - samtools (>1.1)
 - Unix sort (which support -V option) is required ! For Mac OS user, please install the GNU core utilities !
+
+### Install using pip
 ```python
-pip install hi-cpack
+pip install hic-pack
+```
+
+### Install using Anaconda
+```python
+conda install hic-pack
 ```
 
 
