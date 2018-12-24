@@ -8,4 +8,4 @@ install:
 #virtualenv:
 #  system_site_packages: true
 script:
-  - python seqlearner/test.py
+  - python hic-pack/test.py
