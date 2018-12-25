@@ -30,9 +30,9 @@ conda install hic-pack
 
 ## File Illustration
 This repo is divided into 3 directories.
- 1. The `hi-cpack` directory contains all codes and jupyter notebooks.
- 2. The `hi-cpack/data/` directory is place where data is in.
- 3. The `hi-cpack/results/` directory contains all results plots, Logs and etc.
+ 1. The `hic-pack` directory contains all codes and jupyter notebooks.
+ 2. The `hic-pack/data/` directory is place where data is in.
+ 3. The `hic-pack/results/` directory contains all results plots, Logs and etc.
 
 
 ## Examples
