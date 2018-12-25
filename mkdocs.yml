@@ -1,7 +1,7 @@
-site_name: SeqLearner Documentation
+site_name: HiC-Pack Documentation
 nav:
     - Home: index.md
     - Installation: installation.md
 theme: readthedocs
-repo_url: http://github.com/EliHei/SeqLearn
+repo_url: https://github.com/Naghipourfar/HiC-Pack
 site_description: 'An Integrated package for Hi-C Data Analysis'
