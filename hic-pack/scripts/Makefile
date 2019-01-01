@@ -11,7 +11,7 @@ slash := |
 tick := -
 undsc := _
 
-all : init mapping proc_hic merge_persample hic_qc build_raw_maps ice_norm
+all : init mapping proc_hic merge_persample quality_checks # build_raw_maps ice_norm
 
 ## paralell
 all_sub : init mapping proc_hic
@@ -23,13 +23,13 @@ mapping: bowtie_global bowtie_local bowtie_combine mapping_stat
 proc_hic : bowtie_pairing mapped_2hic_fragments
 
 ## per sample - no parallelisation
-all_persample : merge_persample build_raw_maps hic_qc ice_norm
+all_persample : merge_persample # build_raw_maps quality_checks ice_norm
 
 merge_persample: merge_valid_interactions merge_allstat
 
 quality_checks : hic_qc
 
-build_contact_maps: build_raw_maps
+# build_contact_maps: build_raw_maps
 
 
 ######################################
@@ -167,12 +167,12 @@ merge_allstat: config_check
 	@$(SCRIPTS)/merge_stats.sh -c $(CONFIG_FILE)
 	@echo
 
-build_raw_maps:  config_check
-	@echo "--------------------------------------------"
-	@date
-	@echo "Generate binned matrix files ..."
-	@$(SCRIPTS)/build_raw_maps.sh -c $(CONFIG_FILE)
-	@echo
+# build_raw_maps:  config_check
+# 	@echo "--------------------------------------------"
+# 	@date
+# 	@echo "Generate binned matrix files ..."
+# 	@$(SCRIPTS)/build_raw_maps.sh -c $(CONFIG_FILE)
+# 	@echo
 
 hic_qc:
 	@echo "--------------------------------------------"
@@ -187,9 +187,9 @@ hic_qc:
 ######################################
 
 ## Apply ICE normalization
-ice_norm:
-	@echo "--------------------------------------------"
-	@date
-	@echo "Run ICE Normalization ..."
-	@$(SCRIPTS)/ice_norm.sh -c $(CONFIG_FILE)
+# ice_norm:
+# 	@echo "--------------------------------------------"
+# 	@date
+# 	@echo "Run ICE Normalization ..."
+# 	@$(SCRIPTS)/ice_norm.sh -c $(CONFIG_FILE)
 

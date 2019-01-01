@@ -319,7 +319,9 @@ fi
 ##################
 ## Run HiC-Pack ##
 ##################
-echo "INSTALL PATH IS $INSTALL_PATH"
+if [[ -z ${MAKE_OPTS} ]]; then
+    MAKE_OPTS="mapping proc_hic quality_checks"
+fi
 if [ $CLUSTER == 0 ]; then
     echo "Run ${SOFT} "${VERSION}
     make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=$INSTALL_PATH"/config-system.txt" init 2>&1
@@ -334,4 +336,9 @@ else
     	make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=${INSTALL_PATH}/config-system.txt make_cluster_script 2>&1
     fi
 fi
+
+
+# Apply Background model
+# Assumption: bg.py
+python bg.py -i $OUTPUT/
 
