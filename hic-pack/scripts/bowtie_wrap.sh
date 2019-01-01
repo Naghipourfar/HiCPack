@@ -1,7 +1,6 @@
 #!/bin/bash
 
-## HiC-Pro
-## Copyright (c) 2015-2018 Institut Curie
+## HiC-Pack
 ## Author(s): Mohsen Naghipourfar
 ## Contact: mn7697np@gmail.com or naghipourfar@ce.sharif.edu
 ## This software is distributed without any guarantee under the terms of the GNU General
@@ -126,11 +125,11 @@ echo "${MODE}"
 if [[ ${MODE} == 'step1' ]]; then
     for r in $(get_fastq_for_bowtie_global)
     do
-	echo "----DEBUG----"
-	echo "$r"
-	echo "----DEBUG----"
+#	echo "----DEBUG----"
+#	echo "$r"
+#	echo "----DEBUG----"
 	wasrun=1
-       	R1=$r
+    R1=$r
 	R2=$(echo $r | get_R2)
 	sample_dir=$(get_sample_dir $r)
 
@@ -164,7 +163,7 @@ elif [[ ${MODE} == 'step2' ]]; then
 	    R2=$(echo $r | get_R2)
 	    sample_dir=$(get_sample_dir $r)
 
-	    ## Ouput
+	    ## Output
 	    odir=${BOWTIE2_LOCAL_OUTPUT_DIR}/${sample_dir}
 	    mkdir -p $odir
 
