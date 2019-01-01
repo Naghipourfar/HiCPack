@@ -1,0 +1,11 @@
+
+#########################################################################
+## Paths and Settings  - Start editing here !
+#########################################################################
+
+PREFIX = /usr/local/bin/
+BOWTIE2_PATH = /usr/local/bin/bowtie2
+SAMTOOLS_PATH = /usr/local/bin/samtools
+R_PATH = /usr/local/bin/R
+PYTHON_PATH = /Users/Future/anaconda3/bin/python
+CLUSTER_SYS = TORQUE
