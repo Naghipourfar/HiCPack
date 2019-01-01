@@ -2,10 +2,10 @@
 
 ## HiC-Pro
 ## Copyright (c) 2015-2018 Institut Curie
-## Author(s): Nicolas Servant, Eric Viara
-## Contact: nicolas.servant@curie.fr
-## This software is distributed without any guarantee under the terms of the BSD-3 licence.
-## See the LICENCE file for details
+## Author(s): Mohsen Naghipourfar
+## Contact: mn7697np@gmail.com or naghipourfar@ce.sharif.edu
+## This software is distributed without any guarantee under the terms of the GNU General
+## MIT License
 
 ## Bowtie2 wrapper
 ## Step1 mapping
