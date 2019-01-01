@@ -107,7 +107,7 @@ do
 done
 
 if [[ ! -e ${INSTALL_PATH}/config-system.txt ]]; then
-    echo "Error - Installation - config system not detected. Please (re) install HiC-Pro !"
+    echo "Error - Installation - config system not detected. Please (re)install HiC-Pack !"
     exit -1
 fi
 
@@ -122,12 +122,12 @@ fi
 ## Check Config file
 #####################
 ## Read conf file
-. $SCRIPTS_PATH/hic.inc.sh
+. ${SCRIPTS_PATH}/hic.inc.sh
 
 INPUT=`abspath $INPUT`
 OUTPUT=`abspath $OUTPUT`
 
-if [ ! -e $INPUT ]; then
+if [[ ! -e ${INPUT} ]]; then
     echo "Inputs '$INPUT' not found. Exit."
     exit -1
 fi
@@ -142,7 +142,7 @@ fi
 
 
 GENOME_SIZE_FILE=`abspath $GENOME_SIZE`
-if [[ ! -e $GENOME_SIZE_FILE ]]; then
+if [[ ! -e ${GENOME_SIZE_FILE} ]]; then
     GENOME_SIZE_FILE=$ANNOT_DIR/$GENOME_SIZE
 fi
 
@@ -278,7 +278,7 @@ else
 fi
 
 #####################
-## Init HiC-Pro
+## Init HiC-Pack
 ####################
 if [[ -d $OUTPUT && $MAKE_OPTS == "" ]]; then
     echo "$OUTPUT folder alreads exists. Do you want to overwrite it ? (y/n) [n] : "
@@ -316,19 +316,16 @@ if [[ $NEED_FASTQ == 1 ]]; then
 fi
 
 
-#################
-## Run HiC-Pro ##
-#################
-echo
+##################
+## Run HiC-Pack ##
+##################
+echo "INSTALL PATH IS $INSTALL_PATH"
 if [ $CLUSTER == 0 ]; then
-    echo "Run HiC-Pro "${VERSION}
+    echo "Run ${SOFT} "${VERSION}
     make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=$INSTALL_PATH"/config-system.txt" init 2>&1
-    echo "1st Make Finished!"
-    echo "$CONF"
     make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=$INSTALL_PATH"/config-system.txt" $MAKE_OPTS 2>&1
-    echo "2nd Make Finished!"
 else
-    echo "Run HiC-Pro "${VERSION}" parallel mode"
+    echo "Run ${SOFT} "${VERSION}" parallel mode"
     if [[ $MAKE_OPTS != "" ]]
     then
 	MAKE_OPTS=$(echo $MAKE_OPTS | sed -e 's/ /,/g')

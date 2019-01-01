@@ -1,7 +1,7 @@
-site_name: HiC-Pack Documentation
+site_name: HiC-Pack.bash.bash Documentation
 nav:
     - Home: index.md
     - Installation: installation.md
 theme: readthedocs
-repo_url: https://github.com/Naghipourfar/HiC-Pack
+repo_url: https://github.com/Naghipourfar/HiC-Pack.bash.bash
 site_description: 'An Integrated package for Hi-C Data Analysis'
