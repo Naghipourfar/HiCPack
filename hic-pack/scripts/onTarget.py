@@ -13,7 +13,9 @@ Errors and verbose in stderr
 """
 import getopt
 import sys
+
 from bx.intervals.intersection import Intersecter, Interval
+
 
 def usage():
     """Usage function"""
@@ -26,6 +28,7 @@ def usage():
     print("[-v/--verbose] <Verbose>")
     print("[-h/--help] <Help>")
     return
+
 
 def get_args():
     """Get argument"""
@@ -41,6 +44,7 @@ def get_args():
         usage()
         sys.exit(-1)
     return opts
+
 
 def load_bed(in_file, verbose=False):
     """
@@ -60,19 +64,19 @@ def load_bed(in_file, verbose=False):
     bed_handle = open(in_file)
     nline = 0
     for line in bed_handle:
-        nline +=1
+        nline += 1
         bedtab = line.strip().split("\t")
         try:
             chromosome, start, end = bedtab[:3]
         except ValueError:
-            print("Warning : wrong input format in line", nline,". Not a BED file !?", file=sys.stderr)
+            print("Warning : wrong input format in line", nline, ". Not a BED file !?", file=sys.stderr)
             continue
 
         # BED files are zero-based as Intervals objects
         start = int(start)  # + 1
         end = int(end)
         fragl = abs(end - start)
-        
+
         if chromosome in intervals:
             tree = intervals[chromosome]
             tree.add_interval(Interval(start, end))
@@ -80,9 +84,10 @@ def load_bed(in_file, verbose=False):
             tree = Intersecter()
             tree.add_interval(Interval(start, end))
             intervals[chromosome] = tree
-    
+
     bed_handle.close()
     return intervals
+
 
 if __name__ == "__main__":
     # Read command line arguments
@@ -128,16 +133,16 @@ if __name__ == "__main__":
 
     # Read the BED file
     targetInter = load_bed(target, verbose)
-        
+
     # Read the SAM/BAM file
     if verbose:
-        print >> sys.stderr,"## Opening valid pairs file '", inFile, "'..."
-    
+        print >> sys.stderr, "## Opening valid pairs file '", inFile, "'..."
+
     vp_handle = open(inFile)
 
     with open(inFile) as vp_handle:
         for line in vp_handle:
-            vp_counter +=1
+            vp_counter += 1
             sline = line.strip().split("\t")
             try:
                 chr1 = sline[1]
@@ -147,21 +152,21 @@ if __name__ == "__main__":
             except ValueError:
                 # print >> sys.stderr, "Warning : wrong input format in line", nline,". Not a BED file !?"
                 continue
-            
+
             res1 = []
             res2 = []
             if chr1 in targetInter:
-                res1 = targetInter[chr1].find(pos1, pos1+1)
+                res1 = targetInter[chr1].find(pos1, pos1 + 1)
             if chr2 in targetInter:
-                res2 = targetInter[chr2].find(pos2, pos2+1)
-                
+                res2 = targetInter[chr2].find(pos2, pos2 + 1)
+
             if len(res1) > 0 and len(res2) > 0:
-                ontarget_counter +=1
-                ontarget_cap_cap_counter +=1
+                ontarget_counter += 1
+                ontarget_cap_cap_counter += 1
                 print(line.strip())
             elif len(res1) > 0 or len(res2) > 0:
-                ontarget_counter +=1
-                ontarget_cap_rep_counter +=1
+                ontarget_counter += 1
+                ontarget_cap_rep_counter += 1
                 if not cis:
                     print(line.strip())
 
@@ -173,4 +178,3 @@ if __name__ == "__main__":
             f.write("valid_pairs_on_target_cap_cap\t" + str(ontarget_cap_cap_counter) + "\n")
             f.write("valid_pairs_on_target_cap_rep\t" + str(ontarget_cap_rep_counter) + "\n")
             f.closed
-
