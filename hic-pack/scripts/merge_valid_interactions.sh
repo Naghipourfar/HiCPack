@@ -14,7 +14,7 @@ dir=$(dirname $0)
 
 ################### Initialize ###################
 
-while [ $# -gt 0 ]
+while [[ $# -gt 0 ]]
 do
     case "$1" in
 	(-c) conf_file=$2; shift;;
