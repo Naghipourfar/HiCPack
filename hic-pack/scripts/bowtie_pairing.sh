@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## HiC-Pro
+## HiC-Pack
 ## Author(s): Mohsen Naghipourfar
 ## Contact: mn7697np@gmail.com or naghipourfar@ce.sharif.edu
 ## This software is distributed without any guarantee under the terms of the GNU General
@@ -14,7 +14,7 @@
 
 dir=$(dirname $0)
 
-while [ $# -gt 0 ]
+while [[ $# -gt 0 ]]
 do
     case "$1" in
 	(-c) conf_file=$2; shift;;

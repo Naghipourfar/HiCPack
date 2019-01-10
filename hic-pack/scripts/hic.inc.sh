@@ -82,14 +82,14 @@ die()
 exec_cmd()
 {
     echo $*
-    if [ -z "$DRY_RUN" ]; then
+    if [[ -z "$DRY_RUN" ]]; then
 	eval "$@" 
     fi
 }
 
 exec_ret()
 {
-    if [ -z "$DRY_RUN" ]; then
+    if [[ -z "$DRY_RUN" ]]; then
 	eval "$@" 
     fi
 }

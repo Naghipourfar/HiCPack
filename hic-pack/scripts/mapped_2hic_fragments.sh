@@ -1,10 +1,8 @@
 #!/bin/bash
-## Nicolas Servant - 07/09/15
-##
 
 dir=$(dirname $0)
 
-while [ $# -gt 0 ]
+while [[ $# -gt 0 ]]
 do
     case "$1" in
 	(-c) conf_file=$2; shift;;
@@ -15,7 +13,7 @@ do
     shift
 done
 
-##read_config $ncrna_conf
+##read config
 CONF=$conf_file . $dir/hic.inc.sh
 
 ## Do we have a restriction fragment file ?
