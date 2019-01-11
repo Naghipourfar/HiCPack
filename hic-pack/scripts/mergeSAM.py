@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
-## HiC-Pro
-## Copyright (c) 2015 Institut Curie                               
-## Author(s): Nicolas Servant, Eric Viara
-## Contact: nicolas.servant@curie.fr
-## This software is distributed without any guarantee under the terms of the BSD-3 licence.
-## See the LICENCE file for details
+## HiC-Pack
+## Author(s): Mohsen Naghipourfar
+## Contact: mn7697np@gmail.com or naghipourfar@ce.sharif.edu
+## This software is distributed without any guarantee under the terms of the GNU General
+## MIT License
 
 
 """
