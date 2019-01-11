@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-# HiC-Pro
-# Copyleft 2015 Institut Curie
+## HiC-Pack
 ## Author(s): Mohsen Naghipourfar
 ## Contact: mn7697np@gmail.com or naghipourfar@ce.sharif.edu
 ## This software is distributed without any guarantee under the terms of the GNU General

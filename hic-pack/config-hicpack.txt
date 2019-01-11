@@ -13,7 +13,7 @@ RAW_DIR = rawdata
 #######################################################################
 ## SYSTEM AND SCHEDULER - Start Editing Here !!
 #######################################################################
-N_CPU = 8
+N_CPU = 4
 LOGFILE = hicpro.log
 
 JOB_NAME =
@@ -35,7 +35,7 @@ PAIR2_EXT = _2
 
 MIN_MAPQ = 10
 
-BOWTIE2_IDX_PATH = 
+BOWTIE2_IDX_PATH = /Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiC-Pack/hic-pack/bin/indexes/
 BOWTIE2_GLOBAL_OPTIONS = --very-sensitive -L 30 --score-min L,-0.6,-0.2 --end-to-end --reorder
 BOWTIE2_LOCAL_OPTIONS =  --very-sensitive -L 20 --score-min L,-0.6,-0.2 --end-to-end --reorder
 

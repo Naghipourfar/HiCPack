@@ -340,5 +340,5 @@ fi
 
 # Apply Background model
 # Assumption: bg.py
-python bg.py -i $OUTPUT/
+# python bg.py -i $OUTPUT/
 
