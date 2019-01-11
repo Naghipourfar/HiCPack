@@ -44,7 +44,7 @@ merge_pairs()
 
     ## Create output folder if not available
     mkdir -p ${BOWTIE2_FINAL_OUTPUT_DIR}/${sample_dir}
-    
+
     ## Merge two SAM files into 1 paired-end SAM file / removed unmapped and multihits reads
     OPTS="-q ${MIN_MAPQ} -t -v"
     if [[ ${RM_SINGLETON} == 0 ]]; then
@@ -56,7 +56,7 @@ merge_pairs()
 
     #cmd="${PYTHON_PATH}/python ${SCRIPTS}/mergeSAM.py ${OPTS} -f ${BOWTIE2_FINAL_OUTPUT_DIR}/${prefix_r1}.bwt2merged.bam -r ${BOWTIE2_FINAL_OUTPUT_DIR}/${prefix_r2}.bwt2merged.bam -o ${BOWTIE2_FINAL_OUTPUT_DIR}/${prefix_out}.bwt2pairs.bam > ${ldir}/mergeSAM.log"
     cmd="${PYTHON_PATH}/python ${SCRIPTS}/mergeSAM.py ${OPTS} -f ${file_r1} -r ${file_r2} -o ${BOWTIE2_FINAL_OUTPUT_DIR}/${prefix_out}.bwt2pairs.bam"
-    exec_cmd $cmd 
+    exec_cmd $cmd
 }
 
 ##
