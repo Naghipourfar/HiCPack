@@ -21,7 +21,6 @@ import sys
 import pysam
 
 
-
 def usage():
     """Usage function"""
     print("Usage : python mergeSAM.py")
