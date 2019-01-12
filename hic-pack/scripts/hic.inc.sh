@@ -87,6 +87,14 @@ exec_cmd()
     fi
 }
 
+debug_message()
+{
+    local message=$1
+    echo "--------- DEBUG -------"
+    echo "$message"
+    echo "----- END DEBUG -------"
+}
+
 exec_ret()
 {
     if [[ -z "$DRY_RUN" ]]; then

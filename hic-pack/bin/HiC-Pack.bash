@@ -182,7 +182,7 @@ AVAILABLE_STEP_ARRAY=("mapping" "proc_hic" "quality_checks" "merge_persample" "b
 NEED_BAM_STEP_ARRAY=("proc_hic")
 NEED_VALID_STEP_ARRAY=("merge_persample")
 NEED_ALLVALID_STEP_ARRAY=("build_contact_maps")
-NEED_MAT_STEP_ARRAY=("ice_norm")
+#NEED_MAT_STEP_ARRAY=("ice_norm")
 NEED_FASTQ_STEP_ARRAY=("mapping")
 NEED_ANY_STEP_ARRAY=("quality_checks")
 

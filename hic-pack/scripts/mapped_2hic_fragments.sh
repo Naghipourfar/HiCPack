@@ -49,7 +49,8 @@ for r in $(get_paired_bam)
 do
     sample_dir=$(get_sample_dir ${r})
     datadir=${MAPC_OUTPUT}/data/${sample_dir}
-    mkdir -p ${datadir}
+    debug_message $datadir
+    mkdir -p ${datadir}g
     
     ## Logs
     ldir=${LOGS_DIR}/${sample_dir}
@@ -71,7 +72,8 @@ do
     outVALID=`basename ${r} | sed -e 's/.bam$/.validPairs/'`
      
     echo "## Sorting valid interaction file ..." >> ${logfile}
-    cmd="LANG=en; sort -T ${TMP_DIR} -k2,2V -k3,3n -k5,5V -k6,6n -o ${datadir}/${outVALID} ${datadir}/${outVALID}"
+    debug_message $TMP_DIR
+    cmd="LANG=en; sort -k2,2V -k3,3n -k5,5V -k6,6n -o ${datadir}/${outVALID} ${datadir}/${outVALID}"
     exec_cmd $cmd >> ${logfile} 2>&1
 done
 

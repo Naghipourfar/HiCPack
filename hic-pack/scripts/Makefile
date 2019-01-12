@@ -11,7 +11,7 @@ slash := |
 tick := -
 undsc := _
 
-all : init mapping proc_hic merge_persample quality_checks # build_raw_maps ice_norm
+all : init mapping proc_hic merge_persample quality_checks build_raw_maps ice_norm
 
 ## paralell
 all_sub : init mapping proc_hic
@@ -29,7 +29,7 @@ merge_persample: merge_valid_interactions merge_allstat
 
 quality_checks : hic_qc
 
-# build_contact_maps: build_raw_maps
+ build_contact_maps: build_raw_maps
 
 
 ######################################
@@ -167,12 +167,12 @@ merge_allstat: config_check
 	@$(SCRIPTS)/merge_stats.sh -c $(CONFIG_FILE)
 	@echo
 
-# build_raw_maps:  config_check
-# 	@echo "--------------------------------------------"
-# 	@date
-# 	@echo "Generate binned matrix files ..."
-# 	@$(SCRIPTS)/build_raw_maps.sh -c $(CONFIG_FILE)
-# 	@echo
+build_raw_maps:  config_check
+	@echo "--------------------------------------------"
+	@date
+	@echo "Generate binned matrix files ..."
+	@$(SCRIPTS)/build_raw_maps.sh -c $(CONFIG_FILE)
+	@echo
 
 hic_qc:
 	@echo "--------------------------------------------"

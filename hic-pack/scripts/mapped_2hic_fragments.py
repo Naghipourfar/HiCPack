@@ -64,12 +64,12 @@ def get_args():
 
 def timing(function, *args):
     """
-    Run a fonction and eturn the run time and the result of the function
+    Run a function and return the run time and the result of the function
     If the function requires arguments, those can be passed in
     """
     startTime = time.time()
     result = function(*args)
-    print('%s function took %0.3f ms' % (function.func_name, (time.time() - startTime) * 1000))
+    print('%s function took %0.3f ms' % (function.__name__, (time.time() - startTime) * 1000))
     return result
 
 
@@ -248,8 +248,7 @@ def load_restriction_fragment(in_file, minfragsize=None, maxfragsize=None, verbo
             resFrag[chromosome] = tree
 
     if nfilt > 0:
-        print
-        "Warning : ", nfilt, "fragment(s) outside of range and discarded. ", nline - nfilt, " remaining."
+        print("Warning : ", nfilt, "fragment(s) outside of range and discarded. ", nline - nfilt, " remaining.")
 
     bed_handle.close()
     return resFrag
