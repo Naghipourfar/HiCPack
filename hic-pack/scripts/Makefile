@@ -11,7 +11,7 @@ slash := |
 tick := -
 undsc := _
 
-all : init mapping proc_hic merge_persample quality_checks build_raw_maps ice_norm
+all : init mapping proc_hic merge_persample quality_checks build_raw_maps # ice_norm
 
 ## paralell
 all_sub : init mapping proc_hic
