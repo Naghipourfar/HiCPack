@@ -1,5 +1,9 @@
 import argparse
+import os
 import subprocess
+
+import numpy as np
+import pandas as pd
 
 """
     Created by Mohsen Naghipourfar on 2019-01-18.
@@ -13,17 +17,29 @@ import subprocess
 class BackgroundModel(object):
     def __init__(self, method, file, output="", rhome="", scripts=""):
         self.method = method
-        self.file = file
+        self.file_path = file
         self.output = output
         self.r_home = rhome
         self.scripts = scripts
+        self.data = {}
         self.check_validity()
+
+    def check_files(self):
+        id_matrix = None
+        interaction_matrix = None
+        for file in os.listdir(self.file_path):
+            if file.endswith(".bed"):
+                id_matrix = pd.read_csv(fname=self.file_path + file, delimiter="\t")
+            elif file.endswith(".matrix"):
+                interaction_matrix = pd.read_csv(fname=self.file_path + file, delimiter="\t")
+        if id_matrix is None or interaction_matrix is None:
+            raise Exception("id matrix or interaction matrix not found!")
+        self.data["id"] = id_matrix
+        self.data["interaction"] = interaction_matrix
 
     def check_validity(self):
         if self.method is None:
             raise Exception("Please Specify a method for Background model")
-        if not self.file.endswith(".matrix"):
-            raise Exception("Data path is not a valid path. (It must be in .matrix format)")
         if self.r_home == "":
             raise Exception("R home is not specified")
 
@@ -37,6 +53,9 @@ class BackgroundModel(object):
             subprocess.call(command)
         elif self.method.lower() == "chicago":
             subprocess.call(command)
+
+    def prepare_data(self):
+        np.loadtxt(fname="")
 
 
 if __name__ == '__main__':

@@ -32,52 +32,24 @@ DATA_DIR=${MAPC_OUTPUT}/matrix/
 BED_FILES=$(find -L $DATA_DIR -mindepth 1 -maxdepth 4 -name "*.matrix")
 
 ## Apply Background model
-echo 'Please choose background model:'
-echo '1. GOTHiC'
-echo '2. MaxHiC'
-echo '3. FitHiC'
-echo '4. Chicago'
-echo '5. Ms.Ghavvami method'
-echo '6. Ms.Seyed Salehi method'
+# echo 'Please choose background model:'
+# echo '1. GOTHiC'
+# echo '2. MaxHiC'
+# echo '3. FitHiC'
+# echo '4. Chicago'
 
-read input
+#read input
 
-if [[ ${input} -gt 6 || ${input} -lt 1 ]]
-then
-    echo "Wrong choice!"
-    exit
-fi
+#if [[ ${input} -gt 6 || ${input} -lt 1 ]]
+#then
+#    echo "Wrong choice!"
+#    exit
+#fi
 
 mkdir -p ${BG_DIR}
 OUTPUT=$BG_DIR/
 
 for BED_FILE in ${BED_FILES}
 do
-    if [[ ${input} -eq 1 ]]
-    then
-        python ${dir}/BackgroundModel.py -f ${BED_FILE} -o ${OUTPUT} -m gothic
-
-    elif [[ ${input} -eq 2 ]]
-    then
-        python ${dir}/BackgroundModel.py -f ${BED_FILE} -o ${OUTPUT} -m gothic
-
-    elif [[ ${input} -eq 3 ]]
-    then
-        python ${dir}/BackgroundModel.py -f ${BED_FILE} -o ${OUTPUT} -m gothic
-
-    elif [[ ${input} -eq 4 ]]
-    then
-        python ${dir}/BackgroundModel.py -f ${BED_FILE} -o ${OUTPUT} -m gothic
-
-    elif [[ ${input} -eq 5 ]]
-    then
-        python ${dir}/BackgroundModel.py -f ${BED_FILE} -o ${OUTPUT} -m gothic
-
-    elif [[ ${input} -eq 6 ]]
-    then
-        python ${dir}/BackgroundModel.py -f ${BED_FILE} -o ${OUTPUT} -m gothic
-    else
-        echo "Wrong choice!"
-        exit
-    fi
+    python ${dir}/BackgroundModel.py -f ${BED_FILE} -o ${OUTPUT} -m ${BG_MODEL}
 done

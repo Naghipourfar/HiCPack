@@ -11,7 +11,7 @@ slash := |
 tick := -
 undsc := _
 
-all : init mapping proc_hic merge_persample quality_checks build_raw_maps bg_model # ice_norm
+all : init mapping proc_hic merge_persample quality_checks build_raw_maps bg_model visualization # ice_norm
 
 ## paralell
 all_sub : init mapping proc_hic
@@ -203,4 +203,14 @@ bg_model:
 	@date
 	@echo "Run Background model for all samples ..."
 	$(SCRIPTS)/bg_model.sh -c $(CONFIG_FILE)
+	@echo
+######################################
+## Background Model
+##
+######################################
+visualization:
+	@echo "--------------------------------------------"
+	@date
+	@echo "Run Visualization for all samples ..."
+	$(SCRIPTS)/visualization.sh -c $(CONFIG_FILE)
 	@echo

@@ -59,10 +59,10 @@ else
 fi
 
 ## load Hi-C config
-if [ ! -z "$CONF" ]; then
-    CONF=`abspath $CONF`
-    if [ -e "$CONF" ]; then
-	read_config $CONF
+if [[ ! -z "$CONF" ]]; then
+    CONF=`abspath ${CONF}`
+    if [[ -e "$CONF" ]]; then
+	read_config ${CONF}
     else
 	echo "Error - Hi-C config file '$CONF' not found"
 	exit
