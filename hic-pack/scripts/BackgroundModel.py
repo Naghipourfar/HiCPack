@@ -11,22 +11,24 @@ import subprocess
 
 
 class BackgroundModel(object):
-    def __init__(self, method, data_path, output="", r_home=""):
+    def __init__(self, method, file, output="", rhome="", scripts=""):
         self.method = method
-        self.data_path = data_path
+        self.file = file
         self.output = output
-        self.r_home = r_home
+        self.r_home = rhome
+        self.scripts = scripts
+        self.check_validity()
 
     def check_validity(self):
         if self.method is None:
             raise Exception("Please Specify a method for Background model")
-        if not self.data_path.endswith(".matrix"):
+        if not self.file.endswith(".matrix"):
             raise Exception("Data path is not a valid path. (It must be in .matrix format)")
         if self.r_home == "":
             raise Exception("R home is not specified")
 
     def run(self):
-        command = self.r_home + " " + self.method + ".R"
+        command = self.r_home + " " + self.scripts + "/" + self.method + ".R"
         if self.method.lower() == "gothic":
             subprocess.call(command)
         elif self.method.lower() == "maxhic":  # TODO: maxHiC is in python
@@ -42,11 +44,14 @@ if __name__ == '__main__':
         usage='BackgroundModel.py -f file -m gothic -r /usr/local/bin/R -o output/bg_output/',
         add_help=False, formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    group = parser.add_argument_group("Required Parameters")
-    group.add_argument('-f', '--file', nargs='+', help='', metavar='', required=True)
-    group.add_argument('-m', '--method', nargs='+', help='', metavar='', required=True)
-    group.add_argument('-r', '--rhome', default='r', metavar='', required=True)
-    group.add_argument('-o', '--output', default='', metavar='', required=True)
+    required_group = parser.add_argument_group("Required Parameters")
+    required_group.add_argument('-f', '--file', help='', metavar='', required=True)
+    required_group.add_argument('-m', '--method', help='', metavar='', required=True)
+    required_group.add_argument('-o', '--output', default='', metavar='', required=True)
+
+    optional_group = parser.add_argument_group("Optional Parameters")
+    optional_group.add_argument('-r', '--rhome', default='/usr/local/bin/R', metavar='', required=False)
+    optional_group.add_argument('-s', '--scripts', default='/usr/local/bin/R', metavar='', required=False)
 
     args = vars(parser.parse_args())
 

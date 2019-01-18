@@ -9,6 +9,7 @@ LOGS_DIR = logs
 BOWTIE2_OUTPUT_DIR = bowtie_results
 MAPC_OUTPUT = hic_results
 RAW_DIR = rawdata
+BG_DIR = bg_results
 
 #######################################################################
 ## SYSTEM AND SCHEDULER - Start Editing Here !!

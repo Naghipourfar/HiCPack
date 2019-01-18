@@ -280,65 +280,62 @@ fi
 #####################
 ## Init HiC-Pack
 ####################
-if [[ -d $OUTPUT && $MAKE_OPTS == "" ]]; then
-    echo "$OUTPUT folder alreads exists. Do you want to overwrite it ? (y/n) [n] : "
-    read ans
-    if [ XX${ans} = XXy ]; then
-	/bin/rm -rf $OUTPUT
-    elif [ XX${ans} = XXn ]; then
-	exit -1
-    fi
-fi
-mkdir -p $OUTPUT
-
-if [ -L $OUTPUT/$RAW_DIR ]; then
-    /bin/rm $OUTPUT/$RAW_DIR
-fi
-ln -s $INPUT $OUTPUT/$RAW_DIR
-
-## cp config file in output
-if [ ! -e ${OUTPUT}/$(basename ${CONF}) ]; then
-    cp $CONF ${OUTPUT}/$(basename ${CONF})
-fi
-
+#if [[ -d $OUTPUT && $MAKE_OPTS == "" ]]; then
+#    echo "$OUTPUT folder alreads exists. Do you want to overwrite it ? (y/n) [n] : "
+#    read ans
+#    if [ XX${ans} = XXy ]; then
+#	/bin/rm -rf $OUTPUT
+#    elif [ XX${ans} = XXn ]; then
+#	exit -1
+#    fi
+#fi
+#mkdir -p $OUTPUT
+#
+#if [ -L $OUTPUT/$RAW_DIR ]; then
+#    /bin/rm $OUTPUT/$RAW_DIR
+#fi
+#ln -s $INPUT $OUTPUT/$RAW_DIR
+#
+### cp config file in output
+#if [ ! -e ${OUTPUT}/$(basename ${CONF}) ]; then
+#    cp $CONF ${OUTPUT}/$(basename ${CONF})
+#fi
+#
 cd $OUTPUT
 
 #######################
 ## Check input files ##
 #######################
 
-if [[ $NEED_FASTQ == 1 ]]; then
-    r1files=$(find -L $RAW_DIR -mindepth 2 -maxdepth 2 -name "*.fastq" -o -name "*.fastq.gz" | grep "$PAIR1_EXT" | wc -l)
-    r2files=$(find -L $RAW_DIR -mindepth 2 -maxdepth 2 -name "*.fastq" -o -name "*.fastq.gz" | grep "$PAIR2_EXT" | wc -l)
-    if [[ "$r1files" != "$r2files" ]]; then
-	die "Number of $PAIR1_EXT files is different from $PAIR2_EXT [$r1files vs $r2files]."
-    fi
-fi
+#if [[ $NEED_FASTQ == 1 ]]; then
+#    r1files=$(find -L $RAW_DIR -mindepth 2 -maxdepth 2 -name "*.fastq" -o -name "*.fastq.gz" | grep "$PAIR1_EXT" | wc -l)
+#    r2files=$(find -L $RAW_DIR -mindepth 2 -maxdepth 2 -name "*.fastq" -o -name "*.fastq.gz" | grep "$PAIR2_EXT" | wc -l)
+#    if [[ "$r1files" != "$r2files" ]]; then
+#	die "Number of $PAIR1_EXT files is different from $PAIR2_EXT [$r1files vs $r2files]."
+#    fi
+#fi
 
 
 ##################
 ## Run HiC-Pack ##
 ##################
-if [[ -z ${MAKE_OPTS} ]]; then
-    MAKE_OPTS="mapping proc_hic quality_checks"
-fi
-if [ $CLUSTER == 0 ]; then
-    echo "Run ${SOFT} "${VERSION}
-    make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=$INSTALL_PATH"/config-system.txt" init 2>&1
-    make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=$INSTALL_PATH"/config-system.txt" $MAKE_OPTS 2>&1
-else
-    echo "Run ${SOFT} "${VERSION}" parallel mode"
-    if [[ $MAKE_OPTS != "" ]]
-    then
-	MAKE_OPTS=$(echo $MAKE_OPTS | sed -e 's/ /,/g')
-	make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=${INSTALL_PATH}/config-system.txt MAKE_OPTS=$MAKE_OPTS make_cluster_script 2>&1
-    else
-    	make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=${INSTALL_PATH}/config-system.txt make_cluster_script 2>&1
-    fi
-fi
+#if [[ -z ${MAKE_OPTS} ]]; then
+#    MAKE_OPTS="mapping proc_hic quality_checks bg_model"
+#fi
+#if [ $CLUSTER == 0 ]; then
+#    echo "Run ${SOFT} "${VERSION}
+#    make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=$INSTALL_PATH"/config-system.txt" init 2>&1
+#    make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=$INSTALL_PATH"/config-system.txt" $MAKE_OPTS 2>&1
+#else
+#    echo "Run ${SOFT} "${VERSION}" parallel mode"
+#    if [[ $MAKE_OPTS != "" ]]
+#    then
+#	MAKE_OPTS=$(echo $MAKE_OPTS | sed -e 's/ /,/g')
+#	make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=${INSTALL_PATH}/config-system.txt MAKE_OPTS=$MAKE_OPTS make_cluster_script 2>&1
+#    else
+#    	make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=${INSTALL_PATH}/config-system.txt make_cluster_script 2>&1
+#    fi
+#fi
+#
 
-
-# Apply Background model
-# Assumption: bg.py
-# python bg.py -i $OUTPUT/
-
+make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=$INSTALL_PATH"/config-system.txt" bg_model

@@ -11,7 +11,7 @@ slash := |
 tick := -
 undsc := _
 
-all : init mapping proc_hic merge_persample quality_checks build_raw_maps # ice_norm
+all : init mapping proc_hic merge_persample quality_checks build_raw_maps bg_model # ice_norm
 
 ## paralell
 all_sub : init mapping proc_hic
@@ -193,3 +193,14 @@ hic_qc:
 # 	@echo "Run ICE Normalization ..."
 # 	@$(SCRIPTS)/ice_norm.sh -c $(CONFIG_FILE)
 
+
+######################################
+## Background Model
+##
+######################################
+bg_model:
+	@echo "--------------------------------------------"
+	@date
+	@echo "Run Background model for all samples ..."
+	$(SCRIPTS)/bg_model.sh -c $(CONFIG_FILE)
+	@echo
