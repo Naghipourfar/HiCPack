@@ -8,6 +8,12 @@
 
 dir=$(dirname $0)
 
+
+function usage{
+    echo -e "usage : ./bg_model -c CONFIG"
+    echo -e "Use option -h|--help for more information"
+}
+
 ################### Initialization ###################
 
 while [ $# -gt 0 ]
@@ -23,8 +29,8 @@ do
 done
 
 ################### Read the config file ###################
-##read_config $ncrna_conf
-CONF=$conf_file . $dir/hic.inc.sh
+##read_config $conf_file
+CONF=${conf_file} . ${dir}/hic.inc.sh
 
 DATA_DIR=${MAPC_OUTPUT}/matrix/
 
