@@ -47,6 +47,11 @@ ifndef CONFIG_SYS
 else
 include $(CONFIG_SYS)
 endif
+#ifndef SAMPLE_NAME
+#	$(error SAMPLE_NAME is not defined)
+#else
+#include $(SAMPLE_NAME)
+#endif
 
 make_cluster_script: config_check init
 ifdef MAKE_OPTS
@@ -202,15 +207,15 @@ bg_model:
 	@echo "--------------------------------------------"
 	@date
 	@echo "Run Background model for all samples ..."
-	$(SCRIPTS)/bg_model.sh -c $(CONFIG_FILE)
+	@$(SCRIPTS)/bg_model.sh -c $(CONFIG_FILE)
 	@echo
 ######################################
-## Background Model
+## Visualization
 ##
 ######################################
 visualization:
 	@echo "--------------------------------------------"
 	@date
 	@echo "Run Visualization for all samples ..."
-	$(SCRIPTS)/visualization.sh -c $(CONFIG_FILE)
+	@$(SCRIPTS)/visualization.sh -c $(CONFIG_FILE) -s chr6 -n $(SAMPLE_NAME) -r $(BIN_SIZE)
 	@echo

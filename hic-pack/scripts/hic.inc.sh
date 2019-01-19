@@ -275,14 +275,14 @@ get_bam_from_raw_dir()
 get_sam_for_merge()
 {
     local input_data_type=$(get_data_type)
-    if [[ $input_data_type == "fastq" ]]
+    if [[ ${input_data_type} == "fastq" ]]
     then
 	bam=$(get_hic_files ${BOWTIE2_FINAL_OUTPUT_DIR} _${REFERENCE_GENOME}.bwt2merged.bam)
-    elif [[ $input_data_type == "bam" ]]
+    elif [[ ${input_data_type} == "bam" ]]
     then
 	bam=$(get_bam_from_raw_dir)
     fi
-    echo $bam
+    echo ${bam}
 }
 
 get_sam_for_combine()

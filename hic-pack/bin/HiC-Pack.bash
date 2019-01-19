@@ -136,7 +136,7 @@ if [[ -z $PAIR1_EXT || -z $PAIR2_EXT ]]; then
     die "Read pairs extensions not defined. Exit"
 fi
 
-if [[ $(echo $REFERENCE_GENOME | grep -c -e $PAIR1_EXT -e $PAIR2_EXT) == "1" ]]; then
+if [[ $(echo ${REFERENCE_GENOME} | grep -c -e ${PAIR1_EXT} -e ${PAIR2_EXT}) == "1" ]]; then
     die "Conflict in file names. PAIR1_EXT/PAIR2_EXT detected in REFERENCE_GENOME. Please correct before running. Exit"
 fi
 
@@ -182,10 +182,10 @@ AVAILABLE_STEP_ARRAY=("mapping" "proc_hic" "quality_checks" "merge_persample" "b
 NEED_BAM_STEP_ARRAY=("proc_hic")
 NEED_VALID_STEP_ARRAY=("merge_persample")
 NEED_ALLVALID_STEP_ARRAY=("build_contact_maps")
-NEED_MAT_STEP_ARRAY=("bg_model")
+NEED_MAT_STEP_ARRAY=("bg_model" "visualization")
 NEED_FASTQ_STEP_ARRAY=("mapping")
 NEED_ANY_STEP_ARRAY=("quality_checks")
-NEED_INTERACTION_MATRIX=("bg_model")
+
 
 NEED_BAM=0
 NEED_VALID=0
@@ -307,32 +307,36 @@ cd $OUTPUT
 #######################
 
 if [[ $NEED_FASTQ == 1 ]]; then
-    r1files=$(find -L $RAW_DIR -mindepth 2 -maxdepth 2 -name "*.fastq" -o -name "*.fastq.gz" | grep "$PAIR1_EXT" | wc -l)
-    r2files=$(find -L $RAW_DIR -mindepth 2 -maxdepth 2 -name "*.fastq" -o -name "*.fastq.gz" | grep "$PAIR2_EXT" | wc -l)
+    r1files=$(find -L ${RAW_DIR} -mindepth 2 -maxdepth 2 -name "*.fastq" -o -name "*.fastq.gz" | grep "$PAIR1_EXT" | wc -l)
+    r2files=$(find -L ${RAW_DIR} -mindepth 2 -maxdepth 2 -name "*.fastq" -o -name "*.fastq.gz" | grep "$PAIR2_EXT" | wc -l)
     if [[ "$r1files" != "$r2files" ]]; then
 	die "Number of $PAIR1_EXT files is different from $PAIR2_EXT [$r1files vs $r2files]."
     fi
 fi
+
+SAMPLE_NAME=$(find -L ${INPUT} -mindepth 2 -maxdepth 4 -name "*.matrix")
+SAMPLE_NAME="${SAMPLE_NAME%_*}"
+SAMPLE_NAME=$(basename "$SAMPLE_NAME")
 
 
 ##################
 ## Run HiC-Pack ##
 ##################
 if [[ -z ${MAKE_OPTS} ]]; then
-    MAKE_OPTS="mapping proc_hic quality_checks bg_model"
+    MAKE_OPTS="mapping proc_hic quality_checks bg_model visualization"
 fi
 if [ $CLUSTER == 0 ]; then
     echo "Run ${SOFT} "${VERSION}
-    make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=$INSTALL_PATH"/config-system.txt" init 2>&1
-    make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=$INSTALL_PATH"/config-system.txt" $MAKE_OPTS 2>&1
+    make --file ${SCRIPTS_PATH}/Makefile CONFIG_FILE=${CONF} CONFIG_SYS=$INSTALL_PATH"/config-system.txt" SAMPLE_NAME=${SAMPLE_NAME} init 2>&1
+    make --file ${SCRIPTS_PATH}/Makefile CONFIG_FILE=${CONF} CONFIG_SYS=$INSTALL_PATH"/config-system.txt" SAMPLE_NAME=${SAMPLE_NAME} ${MAKE_OPTS} 2>&1
 else
     echo "Run ${SOFT} "${VERSION}" parallel mode"
     if [[ $MAKE_OPTS != "" ]]
     then
-	MAKE_OPTS=$(echo $MAKE_OPTS | sed -e 's/ /,/g')
-	make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=${INSTALL_PATH}/config-system.txt MAKE_OPTS=$MAKE_OPTS make_cluster_script 2>&1
+	MAKE_OPTS=$(echo ${MAKE_OPTS} | sed -e 's/ /,/g')
+	make --file ${SCRIPTS_PATH}/Makefile CONFIG_FILE=${CONF} CONFIG_SYS=${INSTALL_PATH}/config-system.txt SAMPLE_NAME=${SAMPLE_NAME} MAKE_OPTS=${MAKE_OPTS} make_cluster_script 2>&1
     else
-    	make --file $SCRIPTS_PATH/Makefile CONFIG_FILE=$CONF CONFIG_SYS=${INSTALL_PATH}/config-system.txt make_cluster_script 2>&1
+    	make --file ${SCRIPTS_PATH}/Makefile CONFIG_FILE=${CONF} CONFIG_SYS=${INSTALL_PATH}/config-system.txt SAMPLE_NAME=${SAMPLE_NAME} make_cluster_script 2>&1
     fi
 fi
 

@@ -139,7 +139,7 @@ def read_sparseHiCdata(filename, chromosome, bedFile, startBin, endBin, wholeGen
         print >> sys.stderr, 'cannot open', filename
         raise SystemExit
 
-    for line in matrixFile.xreadlines():
+    for line in matrixFile.readlines():
         tags = line.strip().split("\t")
         if int(tags[0]) <= end and int(tags[0]) >= start:
             if int(tags[1]) <= end and int(tags[1]) >= start:
@@ -153,8 +153,8 @@ def read_sparseHiCdata(filename, chromosome, bedFile, startBin, endBin, wholeGen
     if plotInsulation or plotTadDomains and not wholeGenome:
         nums, tricks = insulation(matrix, ins_window, rel_window, True, startBin)
     else:
-        nums = [];
-        tricks = [];
+        nums = []
+        tricks = []
 
     # matrix[matrix<smooth_noise]=0
     return matrix, nums, tricks, clast - chromosomes[chromosome][0] + 1, fourClike
@@ -864,7 +864,7 @@ def HiCplotter(files=[], names=[], resolution=100000, chromosome='', output='', 
             ax1.set_xticks(tricks, minor=True)
             ax1.xaxis.grid(True, which='minor', linewidth=2)
 
-        if h_start > 0:
+        if len(h_start) > 0:
             if highlights:
                 for item in range(0, len(h_start)):
                     if dark:
@@ -2381,8 +2381,7 @@ def HiCplotter(files=[], names=[], resolution=100000, chromosome='', output='', 
 
     warnings.simplefilter(action="ignore", category=FutureWarning)
 
-    print
-    'Plotting now!!'
+    print('Plotting now!!')
     if wholeGenome:
         if highResolution and dPixels == 200:
             plt.savefig(output + '-WholeGenome-' + str(resolution / 1000) + 'K' + extension, dpi=200)

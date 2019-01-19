@@ -9,14 +9,14 @@
 dir=$(dirname $0)
 
 
-function usage{
-    echo -e "usage : ./bg_model -c CONFIG"
-    echo -e "Use option -h|--help for more information"
+usage(){
+    echo "usage : ./bg_model.sh -c CONFIG"
+    echo "Use option -h|--help for more information"
 }
 
 ################### Initialization ###################
 
-while [ $# -gt 0 ]
+while [[ $# -gt 0 ]]
 do
     case "$1" in
 	(-c) conf_file=$2; shift;;
@@ -53,9 +53,9 @@ BED_FILES=$(find -L $DATA_DIR -mindepth 1 -maxdepth 4 -name "*.matrix")
 #fi
 
 mkdir -p ${BG_DIR}
-OUTPUT=$BG_DIR/
+OUTPUT_DIR=${BG_DIR}/
 
 for BED_FILE in ${BED_FILES}
 do
-    python ${dir}/BackgroundModel.py -f ${BED_FILE} -o ${OUTPUT} -m ${BG_MODEL}
+    python ${dir}/BackgroundModels/BackgroundModel.py -f ${BED_FILE} -o ${OUTPUT_DIR} -m ${BG_MODEL}
 done
