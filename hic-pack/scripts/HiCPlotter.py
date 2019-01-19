@@ -2508,72 +2508,72 @@ if __name__ == '__main__':
     args = vars(parser.parse_args())
 
     if len(args['files']) != len(args['names']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of HiC matrix and names'
+        print('Upps!! Please provide equal number of HiC matrix and names', file=sys.stderr)
         raise SystemExit
     if len(args['histograms']) > 0 and len(args['histograms']) != len(args['files']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of HiC matrix and BedGraphs'
+        print('Upps!! Please provide equal number of HiC matrix and BedGraphs', file=sys.stderr)
         raise SystemExit
     if len(args['histLabels']) > 0 and len(args['histLabels']) != len(args['files']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of HiC matrix and BedGraph Labels'
+        print('Upps!! Please provide equal number of HiC matrix and BedGraph Labels', file=sys.stderr)
         raise SystemExit
     if len(args['histograms']) > 0:
         if len(args['histograms'][0].split(',')) > 2 and args['superImpose']:
-            print >> sys.stderr, 'Upps!! Please use super impose (-si) only with 2 histogram files per condition'
+            print('Upps!! Please use super impose (-si) only with 2 histogram files per condition', file=sys.stderr)
             raise SystemExit
     if len(args['histograms']) + len(args['histLabels']) + len(args['fillHist']) > 0 and len(args['histLabels']) != len(
             args['histograms']) and len(args['histLabels']) != len(args['fillHist']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of BedGraphs, BedGraph Labels and FillUnders (0:no, 1:yes)'
+        print('Upps!! Please provide equal number of BedGraphs, BedGraph Labels and FillUnders (0:no, 1:yes)', file=sys.stderr)
         raise SystemExit
     if len(args['barPlots']) > 0 and len(args['barPlots']) != len(args['files']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of HiC matrix and bar plots'
+        print('Upps!! Please provide equal number of HiC matrix and bar plots', file=sys.stderr)
         raise SystemExit
     if len(args['barLabels']) > 0 and len(args['barLabels']) != len(args['files']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of HiC matrix and bar plot Labels'
+        print('Upps!! Please provide equal number of HiC matrix and bar plot Labels', file=sys.stderr)
         raise SystemExit
     if len(args['barPlots']) + len(args['barLabels']) > 0 and len(args['barPlots']) != len(args['barLabels']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of bar plot and bar plot Labels'
+        print('Upps!! Please provide equal number of bar plot and bar plot Labels', file=sys.stderr)
         raise SystemExit
     if len(args['barColors']) > 0 and len(args['barPlots']) != len(args['barColors']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of bar plot and bar plot colors'
+        print('Upps!! Please provide equal number of bar plot and bar plot colors', file=sys.stderr)
         raise SystemExit
     if len(args['tilePlots']) > 0 and len(args['tilePlots']) != len(args['files']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of HiC matrix and tile plots'
+        print('Upps!! Please provide equal number of HiC matrix and tile plots', file=sys.stderr)
         raise SystemExit
     if len(args['tileLabels']) > 0 and len(args['tileLabels']) != len(args['files']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of HiC matrix and tile plot Labels'
+        print('Upps!! Please provide equal number of HiC matrix and tile plot Labels', file=sys.stderr)
         raise SystemExit
     if len(args['tilePlots']) + len(args['tileLabels']) > 0 and len(args['tilePlots']) != len(args['tileLabels']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of tile plot and tile plot Labels'
+        print('Upps!! Please provide equal number of tile plot and tile plot Labels', file=sys.stderr)
         raise SystemExit
     if len(args['tileColors']) > 0 and len(args['tilePlots']) != len(args['tileColors']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of tile plot and tile plot colors'
+        print('Upps!! Please provide equal number of tile plot and tile plot colors', file=sys.stderr)
         raise SystemExit
     if len(args['arcPlots']) > 0 and len(args['arcPlots']) != len(args['files']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of HiC matrix and arc plots'
+        print('Upps!! Please provide equal number of HiC matrix and arc plots', file=sys.stderr)
         raise SystemExit
     if len(args['arcLabels']) > 0 and len(args['arcLabels']) != len(args['files']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of HiC matrix and arc plot Labels'
+        print('Upps!! Please provide equal number of HiC matrix and arc plot Labels', file=sys.stderr)
         raise SystemExit
     if len(args['arcPlots']) + len(args['arcLabels']) > 0 and len(args['arcPlots']) != len(args['arcLabels']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of arc plot and arc plot Labels'
+        print('Upps!! Please provide equal number of arc plot and arc plot Labels', file=sys.stderr)
         raise SystemExit
     if len(args['arcColors']) > 0 and len(args['arcPlots']) != len(args['arcColors']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of arc plot and arc plot colors'
+        print('Upps!! Please provide equal number of arc plot and arc plot colors', file=sys.stderr)
         raise SystemExit
     if args['plotCustomDomains'] and len(args['customDomainsFile']) == 0:
-        print >> sys.stderr, 'Upps!! Please provide a bedGraph file for custom domains'
+        print('Upps!! Please provide a bedGraph file for custom domains', file=sys.stderr)
         raise SystemExit
     if args['plotCustomDomains'] and len(args['customDomainsFile']) != len(args['files']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of HiC matrix and custom domains'
+        print('Upps!! Please provide equal number of HiC matrix and custom domains', file=sys.stderr)
         raise SystemExit
     if args['start'] < 0 or args['end'] < 0 or args['end'] - args['start'] < 0:
-        print >> sys.stderr, 'Upps!! Start and end should be positive and end bigger than start'
+        print('Upps!! Start and end should be positive and end bigger than start', file=sys.stderr)
         raise SystemExit
     if args['anchor'] > 0 and (args['end'] < args['anchor'] or args['anchor'] < args['start']):
-        print >> sys.stderr, 'Upps!! Please provide an anchor value between start and end bins'
+        print('Upps!! Please provide an anchor value between start and end bins', file=sys.stderr)
         raise SystemExit
     if len(args['peakFiles']) > 0 and len(args['peakFiles']) != len(args['files']):
-        print >> sys.stderr, 'Upps!! Please provide equal number of HiC matrix and peak files'
+        print('Upps!! Please provide equal number of HiC matrix and peak files', file=sys.stderr)
         raise SystemExit
 
     if args['verbose']:
