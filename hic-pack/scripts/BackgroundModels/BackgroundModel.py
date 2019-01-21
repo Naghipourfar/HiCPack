@@ -33,8 +33,8 @@ class BackgroundModel(object):
                 interaction_matrix = pd.read_csv(self.file_path + file, delimiter="\t", header=None)
         if id_matrix is None or interaction_matrix is None:
             raise Exception("id matrix or interaction matrix not found!")
-        self.data["id"] = id_matrix
-        self.data["interaction"] = interaction_matrix
+        self.data["id"] = id_matrix  # HiC-Pro BED dataframe
+        self.data["interaction"] = interaction_matrix  # HiC-Pro Interactions dataframe
 
     def check_validity(self):
         if self.method is None:
@@ -47,14 +47,14 @@ class BackgroundModel(object):
         command = self.r_home + " " + self.scripts + "/" + self.method + ".R"
         if self.method.lower() == "gothic":
             subprocess.call(command)
-        elif self.method.lower() == "maxhic":  # TODO: maxHiC is in python
-            pass
         elif self.method.lower() == "fithic":
             subprocess.call(command)
         elif self.method.lower() == "chicago":
             subprocess.call(command)
 
     def prepare_data(self):
+        os.makedirs(self.output + self.method, exist_ok=True)
+        self.output += self.method
         if self.method.lower() == "fithic":
             chr_name_map = pd.DataFrame()
             chr_name_map['Chromosome.Name'] = self.data['id'].iloc[:, 0]
@@ -80,6 +80,22 @@ class BackgroundModel(object):
             self.inters_df["Mid.Point.2"] = self.data['interaction'].iloc[:, 1].map(name_midpoint_map)
             self.inters_df["Hit.Count"] = self.data['interaction'].iloc[:, 2]
             self.inters_df.to_csv(self.output + self.method + "_Interactions.bed", index=None, sep="\t", header=False)
+        elif self.method.lower() == "gothic":
+            # Creating Restriction file (TODO: has to be reconsidered!)
+            self.restriction_df = pd.DataFrame()
+            self.restriction_df["Chromosome"] = self.data['id'].iloc[:, 0]
+            self.restriction_df["Fragment_Start_Position"] = self.data['id'].iloc[:, 1]
+            self.restriction_df["Fragment_End_Position"] = self.data['id'].iloc[:, 2]
+            self.restriction_df["Fragment_Number"] = self.data['id'].iloc[:, 3]
+            self.restriction_df["RE1_Fragment_Number"] = self.data['id'].iloc[:, 3]
+            self.restriction_df["5'_Restriction_Site"] = 'Re1'
+            self.restriction_df["3'_Restriction_Site"] = 'Re1'
+            self.restriction_df.iloc[0, 5] = "None"
+
+            self.restriction_df.to_csv(self.output + ".txt", sep="\t")
+
+            # TODO: What is the convention in interactions format?
+
 
 
 if __name__ == '__main__':
