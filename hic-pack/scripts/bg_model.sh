@@ -57,5 +57,5 @@ OUTPUT_DIR=${BG_DIR}/
 
 for BED_FILE in ${BED_FILES}
 do
-    python ${dir}/BackgroundModels/BackgroundModel.py -f ${BED_FILE} -o ${OUTPUT_DIR} -m ${BG_MODEL}
+    python ${dir}/BackgroundModel.py -f ${BED_FILE} -o ${OUTPUT_DIR} -m ${BG_MODEL}
 done

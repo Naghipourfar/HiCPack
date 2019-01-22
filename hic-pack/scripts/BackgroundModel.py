@@ -13,17 +13,21 @@ import pandas as pd
 
 
 class BackgroundModel(object):
-    def __init__(self, method, file, output="../bin/Data/output/bg_results/", rhome="/usr/local/bin/R", scripts=""):
+    def __init__(self, method, file, output="../bin/Data/output/bg_results/", rhome="/usr/local/bin/R", scripts="./",
+                 verbose=False):
         self.method = method
         self.file_path = file
         self.output = output
         self.r_home = rhome
         self.scripts = scripts
+        self.verbose = verbose
         self.data = {}
         self.check_validity()
         self.prepare_data()
 
     def check_files(self):
+        if self.verbose:
+            print("Searching for HiC-Pro contact maps...", end="\t")
         id_matrix = None
         interaction_matrix = None
         for file in os.listdir(self.file_path):
@@ -35,22 +39,36 @@ class BackgroundModel(object):
             raise Exception("id matrix or interaction matrix not found!")
         self.data["id"] = id_matrix  # HiC-Pro BED dataframe
         self.data["interaction"] = interaction_matrix  # HiC-Pro Interactions dataframe
+        if self.verbose:
+            print("Done")
 
     def check_validity(self):
+        if self.verbose:
+            print("Checking Files Validation...", end="\t")
         if self.method is None:
             raise Exception("Please Specify a method for Background model")
         if self.r_home == "":
             raise Exception("R home is not specified")
+        if self.verbose:
+            print("Done")
         self.check_files()
 
     def run(self):
+        if self.verbose:
+            print("Starting to run " + self.method + "...")
         command = self.r_home + " " + self.scripts + "/" + self.method + ".R"
         if self.method.lower() == "gothic":
+            print(command)
             subprocess.call(command)
         elif self.method.lower() == "fithic":
+            command += " -f " + self.file_path + "/FitHiC_Fragments.bed" + " -i " + self.file_path + \
+                       "/FitHiC_Interactions.bed" + " -o " + self.output + " -p 1 -m 1 -n SRRMohsen -u 250000 -l 10000"  # TODO: change parameter passing to be user friendly
             subprocess.call(command)
+            print(command)
         elif self.method.lower() == "chicago":
+            print(command)
             subprocess.call(command)
+        print("Done!")
 
     def prepare_data(self):
         os.makedirs(self.output + self.method, exist_ok=True)
@@ -97,7 +115,6 @@ class BackgroundModel(object):
             # TODO: What is the convention in interactions format?
 
 
-
 if __name__ == '__main__':
     # parser = argparse.ArgumentParser(
     #     usage='BackgroundModel.py -f file -m gothic -r /usr/local/bin/R -o output/bg_output/',
@@ -113,6 +130,11 @@ if __name__ == '__main__':
     # optional_group.add_argument('-s', '--scripts', default='/usr/local/bin/R', metavar='', required=False)
     #
     # args = vars(parser.parse_args())
-    #
+
     # bg_model = BackgroundModel(**args)
-    bg_model = BackgroundModel(method="FitHiC", file="../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/")
+    bg_model = BackgroundModel(method="FitHiC",  # Background model to be applied
+                               file="../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/",   # input BED and .matrix files (HiC-Pro contact maps)
+                               output="../bin/Data/output/bg_results/",  # output path for BG model
+                               rhome="/usr/local/bin/R",    # R home
+                               scripts="./",    # Scripts path (in order to run FitHiC.R)
+                               verbose=True)    # Print log or not?
