@@ -19,15 +19,15 @@ option_list = list(
   make_option(c("-l", "--distLowThres"), type="integer", default=10000, 
               help="Lower bound on the intra-chromosomal distance range", metavar="character")
 ); 
-
-current.directory <- dirname(parent.frame(2))
-setwd(current.directory)
-
-FitHiC(option_list$frags, 
-       option_list$inters, 
-       option_list$out,
-       option_list$noOfPasses,
-       option_list$mappabilityThreshold,
-       option_list$libname,
-       option_list$distUpThres, 
-       option_list$distLowThres)
+opt <- parse_args(OptionParser(option_list=option_list))
+# current.directory <- dirname(parent.frame(2))
+# setwd(current.directory)
+print(opt$frags)
+FitHiC(fragsfile = opt$frags,
+       intersfile = opt$inters, 
+       outdir = opt$out,
+       noOfPasses = opt$noOfPasses,
+       mappabilityThreshold = opt$mappabilityThreshold,
+       libname = opt$libname,
+       distUpThres = opt$distUpThres, 
+       distLowThres = opt$distLowThres)

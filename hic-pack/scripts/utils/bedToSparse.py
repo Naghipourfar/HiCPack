@@ -1,23 +1,23 @@
 import sys
 
 def bedToSparse():
-	
-	'''
+
+	"""
     generates triple sparse output from bed-formatted matrix files
 
     parameters:
-	
+
 	genome: a tab delimited file for chromosome sizes. [CHR Length] chr1	249250621
 	windowsize: bin size of the bed file.
 	bed : bed-formatted matrix file. Example line: chr10	355155_356426	483838_485372	1
-	
+
 	creates:
 	bed file for the bins
 	matrix file formatted as triple-sparse matrix (HiC-Pro output)
-    
+
     Special thanks to Charles Dietz for testing this script!
-    
-    '''
+
+    """
 
 	
 	genome=sys.argv[1]

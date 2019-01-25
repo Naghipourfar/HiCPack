@@ -37,7 +37,7 @@ class BackgroundModel(object):
                 interaction_matrix = pd.read_csv(self.file_path + file, delimiter="\t", header=None)
         if id_matrix is None or interaction_matrix is None:
             raise Exception("id matrix or interaction matrix not found!")
-        self.data["id"] = id_matrix  # HiC-Pro BED dataframe
+        self.data["id"] = id_matrix  # HiC-Pro BED data.frame
         self.data["interaction"] = interaction_matrix  # HiC-Pro Interactions dataframe
         if self.verbose:
             print("Done")
@@ -56,24 +56,29 @@ class BackgroundModel(object):
     def run(self):
         if self.verbose:
             print("Starting to run " + self.method + "...")
-        command = self.r_home + " " + self.scripts + "/" + self.method + ".R"
+        command = self.r_home + " " + self.scripts + self.method + ".R"
         if self.method.lower() == "gothic":
             print(command)
             subprocess.call(command)
         elif self.method.lower() == "fithic":
-            command += " -f " + self.file_path + "/FitHiC_Fragments.bed" + " -i " + self.file_path + \
-                       "/FitHiC_Interactions.bed" + " -o " + self.output + " -p 1 -m 1 -n SRRMohsen -u 250000 -l 10000"  # TODO: change parameter passing to be user friendly
-            subprocess.call(command)
+            print("/usr/local/bin/Rscript --vanilla ./FitHiC.R -f ../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/FitHiC/FitHiC_Fragments.bed -i ../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/FitHiC/FitHiC_Interactions.bed -o ../bin/Data/output/bg_results/ -p 1 -m 1 -n SRRMohsen -u 250000 -l 10000")
+            command += " -f " + self.file_path + "FitHiC_Fragments.bed" + " -i " + self.file_path + \
+                       "FitHiC_Interactions.bed" + " -o " + self.output + " -p 1 -m 1 -n SRRMohsen -u 250000 -l 10000"  # TODO: change parameter passing to be user friendly
             print(command)
+            # p = subprocess.Popen(command.split(" "), shell=True,
+            #                      stdout=subprocess.PIPE)
+            subprocess.call([command], shell=True)
         elif self.method.lower() == "chicago":
             print(command)
             subprocess.call(command)
         print("Done!")
 
     def prepare_data(self):
-        os.makedirs(self.output + self.method, exist_ok=True)
-        self.output += self.method
+        os.makedirs(self.file_path + self.method, exist_ok=True)
+        self.file_path += self.method + "/"
         if self.method.lower() == "fithic":
+            if os.path.exists(self.file_path + self.method + "_Interactions.bed"):
+                return
             chr_name_map = pd.DataFrame()
             chr_name_map['Chromosome.Name'] = self.data['id'].iloc[:, 0]
             chr_name_map["ID"] = self.data['id'].iloc[:, 3]
@@ -86,7 +91,7 @@ class BackgroundModel(object):
             self.frags_df['Mid.Point'] = (self.data['id'].iloc[:, 1] + self.data['id'].iloc[:, 2]) // 2
             self.frags_df['Hit.Count'] = 1
             self.frags_df['Column.5'] = 0
-            self.frags_df.to_csv(self.output + self.method + "_Fragments.bed", index=None, sep="\t", header=False)
+            self.frags_df.to_csv(self.file_path + self.method + "_Fragments.bed", index=None, sep="\t", header=False)
 
             self.frags_df["ID"] = self.data["id"].iloc[:, 3]
             name_midpoint_map = self.frags_df.set_index("ID")["Mid.Point"].to_dict()
@@ -97,7 +102,7 @@ class BackgroundModel(object):
             self.inters_df["Chromosome2.Name"] = self.data['interaction'].iloc[:, 1].map(id_name_map)
             self.inters_df["Mid.Point.2"] = self.data['interaction'].iloc[:, 1].map(name_midpoint_map)
             self.inters_df["Hit.Count"] = self.data['interaction'].iloc[:, 2]
-            self.inters_df.to_csv(self.output + self.method + "_Interactions.bed", index=None, sep="\t", header=False)
+            self.inters_df.to_csv(self.file_path + self.method + "_Interactions.bed", index=None, sep="\t", header=False)
         elif self.method.lower() == "gothic":
             # Creating Restriction file (TODO: has to be reconsidered!)
             self.restriction_df = pd.DataFrame()
@@ -135,6 +140,7 @@ if __name__ == '__main__':
     bg_model = BackgroundModel(method="FitHiC",  # Background model to be applied
                                file="../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/",   # input BED and .matrix files (HiC-Pro contact maps)
                                output="../bin/Data/output/bg_results/",  # output path for BG model
-                               rhome="/usr/local/bin/R",    # R home
+                               rhome="/usr/local/bin/Rscript --vanilla",    # R home
                                scripts="./",    # Scripts path (in order to run FitHiC.R)
                                verbose=True)    # Print log or not?
+    bg_model.run()

@@ -11,6 +11,7 @@ MAPC_OUTPUT = hic_results
 RAW_DIR = rawdata
 BG_DIR = bg_results
 VIS_DIR = visualization_results
+TAD_DIR = tad_results
 
 #######################################################################
 ## SYSTEM AND SCHEDULER - Start Editing Here !!
@@ -107,3 +108,8 @@ BG_MODEL = FitHiC
 ## Visualization
 #######################################################################
 VIS_METHOD = HiCPlotter
+
+#######################################################################
+## Visualization
+#######################################################################
+TAD_ALGORITHM = TADTree
