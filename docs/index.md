@@ -1,6 +1,7 @@
 # HiC-Pack
 [![PyPI version](https://badge.fury.io/py/hic-pack.svg)](https://badge.fury.io/py/hic-pack) [![Build Status](https://travis-ci.org/Naghipourfar/HiC-Pack.svg?branch=master)](https://travis-ci.org/Naghipourfar/HiC-Pack) [![Documentation Status](https://readthedocs.org/projects/hic-pack/badge/?version=latest)](https://hic-pack.readthedocs.io/en/latest/?badge=latest)
-![](../logo/logo-main.png)
+
+![](./logo/logo-main.png)
 ## Introduction
 HiC-Pack is an Integrated package for Hi-C Data Analysis
 HiC-Pack is a high-level API, written in Python.
