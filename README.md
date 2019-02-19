@@ -1,5 +1,6 @@
 # HiC-Pack [![PyPI version](https://badge.fury.io/py/hic-pack.svg)](https://badge.fury.io/py/hic-pack) [![Build Status](https://travis-ci.org/Naghipourfar/HiC-Pack.svg?branch=master)](https://travis-ci.org/Naghipourfar/HiC-Pack) [![Documentation Status](https://readthedocs.org/projects/hic-pack/badge/?version=latest)](https://hic-pack.readthedocs.io/en/latest/?badge=latest)
 
+<img align="center" src="./logo/logo-main.png?raw=true">
 An Integrated package for Hi-C Data Analysis
 
 ## Introduction
@@ -17,12 +18,12 @@ An Integrated package for Hi-C Data Analysis
 - Unix sort (which support -V option) is required ! For Mac OS user, please install the GNU core utilities !
 
 ### Install using pip
-```python
+```bash
 pip install hic-pack
 ```
 
 ### Install using Anaconda
-```python
+```bash
 conda install hic-pack
 ```
 
