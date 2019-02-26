@@ -22,7 +22,6 @@ HiCPack has some main principles:
 
 ## Getting Started: A Simple Example
 ```bash
-
 ./HiCPack.bash -i ./data/input/ -o ./data/output -c ../config-hicpack.txt [-s ANALYSIS_STEP] [-p] [-h] [-v]
 ```
 ## Support
