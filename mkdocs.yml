@@ -5,7 +5,7 @@ pages:
     - Examples: examples.md
     - Stages:
         - Alignment: alignment.md
-        - RawMappingMatrix: raw_map.md
+        - Raw Contact Maps: raw_map.md
         - BackgroundModel: bg_model.md
         - Visualization: visualization.md
         - TAD Calling: tad_calling.md
