@@ -5,7 +5,10 @@ __pycache__/
 
 # C extensions
 *.so
-
+.idea/
+hicpack/annotation/
+hicpack/bin/Data/
+hicpack/bin/indexes/
 # Distribution / packaging
 .Python
 build/
