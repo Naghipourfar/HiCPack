@@ -1,3 +1,4 @@
+import argparse
 import os
 import subprocess
 
@@ -13,8 +14,34 @@ import pandas as pd
 
 
 class BackgroundModel(object):
+    """
+        Wrapper class for variety of background models. This class contains the implementation of
+        various background models.
+
+        # Parameters
+            kwargs:
+                :key `need_bias` : bool
+                    if `True`, will make bias file for some BG models.
+            method: basestring
+                number of gene expression space dimensions.
+            file: basestring
+                number of latent space dimensions.
+            output: basestring
+                path to save the outputs.
+            rhome: basestring
+                path to R language executable file.
+            scripts: basestring
+                path to scripts files.
+            verbose: bool
+                if `True`, will print logs in the console.
+
+        # See also
+            CVAE from hic_pack.TADCalling : TAD Calling methods wrapper class.
+
+    """
+
     def __init__(self, method, file, output="../bin/Data/output/bg_results/", rhome="/usr/local/bin/R", scripts="./",
-                 verbose=False):
+                 verbose=False, **kwargs):
         self.method = method
         self.file_path = file
         self.output = output
@@ -22,10 +49,13 @@ class BackgroundModel(object):
         self.scripts = scripts
         self.verbose = verbose
         self.data = {}
-        self.check_validity()
+        self._check_validity()
         self.prepare_data()
 
-    def check_files(self):
+        # Optional Arguments for each method
+        self.need_bias = kwargs.get("need_bias", False)
+
+    def _check_files(self):
         if self.verbose:
             print("Searching for HiC-Pro contact maps...", end="\t")
         id_matrix = None
@@ -42,7 +72,7 @@ class BackgroundModel(object):
         if self.verbose:
             print("Done")
 
-    def check_validity(self):
+    def _check_validity(self):
         if self.verbose:
             print("Checking Files Validation...", end="\t")
         if self.method is None:
@@ -51,9 +81,28 @@ class BackgroundModel(object):
             raise Exception("R home is not specified")
         if self.verbose:
             print("Done")
-        self.check_files()
+        self._check_files()
 
     def run(self):
+        """
+            Runs the above-mentioned background model on data.
+
+            # Parameters
+                No parameters are needed.
+
+            # Example
+            ```python
+                from hic_pack.BackgroundModels import BackgroundModel
+                bg_model = BackgroundModel(method="FitHiC",
+                               file="../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/",
+                               output="../bin/Data/output/bg_results/",
+                               rhome="/usr/local/bin/Rscript --vanilla",
+                               scripts="./",
+                               verbose=True,
+                               need_bias=True)
+                bg_model.run()
+            ```
+        """
         if self.verbose:
             print("Starting to run " + self.method + "...")
         command = self.r_home + " " + self.scripts + self.method + ".R"
@@ -61,7 +110,8 @@ class BackgroundModel(object):
             print(command)
             subprocess.call(command)
         elif self.method.lower() == "fithic":
-            print("/usr/local/bin/Rscript --vanilla ./FitHiC.R -f ../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/FitHiC/FitHiC_Fragments.bed -i ../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/FitHiC/FitHiC_Interactions.bed -o ../bin/Data/output/bg_results/ -p 1 -m 1 -n SRRMohsen -u 250000 -l 10000")
+            print(
+                "/usr/local/bin/Rscript --vanilla ./FitHiC.R -f ../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/FitHiC/FitHiC_Fragments.bed -i ../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/FitHiC/FitHiC_Interactions.bed -o ../bin/Data/output/bg_results/ -p 1 -m 1 -n SRRMohsen -u 250000 -l 10000")
             command += " -f " + self.file_path + "FitHiC_Fragments.bed" + " -i " + self.file_path + \
                        "FitHiC_Interactions.bed" + " -o " + self.output + " -p 1 -m 1 -n SRRMohsen -u 250000 -l 10000"  # TODO: change parameter passing to be user friendly
             print(command)
@@ -71,7 +121,8 @@ class BackgroundModel(object):
         elif self.method.lower() == "chicago":
             print(command)
             subprocess.call(command)
-        print("Done!")
+        if self.verbose:
+            print("Done!")
 
     def prepare_data(self):
         os.makedirs(self.file_path + self.method, exist_ok=True)
@@ -102,7 +153,15 @@ class BackgroundModel(object):
             self.inters_df["Chromosome2.Name"] = self.data['interaction'].iloc[:, 1].map(id_name_map)
             self.inters_df["Mid.Point.2"] = self.data['interaction'].iloc[:, 1].map(name_midpoint_map)
             self.inters_df["Hit.Count"] = self.data['interaction'].iloc[:, 2]
-            self.inters_df.to_csv(self.file_path + self.method + "_Interactions.bed", index=None, sep="\t", header=False)
+            self.inters_df.to_csv(self.file_path + self.method + "_Interactions.bed", index=None, sep="\t",
+                                  header=False)
+            if self.need_bias:
+                self.bias_df = pd.DataFrame()
+                self.bias_df["Chromosome.Name"] = self.data['id'].iloc[:, 0]
+                self.bias_df['Mid.Point'] = (self.data['id'].iloc[:, 1] + self.data['id'].iloc[:, 2]) // 2
+                self.bias_df[
+                    "Bias"] = 1  # TODO:1 (expected amount of count/visibility) (> 1) (higher than expected count) bias < 1 (lower than expected count)
+                self.bias_df.to_csv(self.file_path + self.method + "_Bias.afterICE", index=None, sep="\t", header=False)
         elif self.method.lower() == "gothic":
             # Creating Restriction file (TODO: has to be reconsidered!)
             self.restriction_df = pd.DataFrame()
@@ -121,26 +180,28 @@ class BackgroundModel(object):
 
 
 if __name__ == '__main__':
-    # parser = argparse.ArgumentParser(
-    #     usage='BackgroundModel.py -f file -m gothic -r /usr/local/bin/R -o output/bg_output/',
-    #     add_help=False, formatter_class=argparse.RawDescriptionHelpFormatter)
-    #
-    # required_group = parser.add_argument_group("Required Parameters")
-    # required_group.add_argument('-f', '--file', help='', metavar='', required=True)
-    # required_group.add_argument('-m', '--method', help='', metavar='', required=True)
-    # required_group.add_argument('-o', '--output', default='', metavar='', required=True)
-    #
-    # optional_group = parser.add_argument_group("Optional Parameters")
-    # optional_group.add_argument('-r', '--rhome', default='/usr/local/bin/R', metavar='', required=False)
-    # optional_group.add_argument('-s', '--scripts', default='/usr/local/bin/R', metavar='', required=False)
-    #
-    # args = vars(parser.parse_args())
+    parser = argparse.ArgumentParser(
+        usage='BackgroundModel.py -f file -m gothic -r /usr/local/bin/R -o output/bg_output/',
+        add_help=False, formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    # bg_model = BackgroundModel(**args)
-    bg_model = BackgroundModel(method="FitHiC",  # Background model to be applied
-                               file="../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/",   # input BED and .matrix files (HiC-Pro contact maps)
-                               output="../bin/Data/output/bg_results/",  # output path for BG model
-                               rhome="/usr/local/bin/Rscript --vanilla",    # R home
-                               scripts="./",    # Scripts path (in order to run FitHiC.R)
-                               verbose=True)    # Print log or not?
-    bg_model.run()
+    required_group = parser.add_argument_group("Required Parameters")
+    required_group.add_argument('-f', '--file', help='', metavar='', required=True)
+    required_group.add_argument('-m', '--method', help='', metavar='', required=True)
+    required_group.add_argument('-o', '--output', default='', metavar='', required=True)
+
+    optional_group = parser.add_argument_group("Optional Parameters")
+    optional_group.add_argument('-r', '--rhome', default='/usr/local/bin/R', metavar='', required=False)
+    optional_group.add_argument('-s', '--scripts', default='/usr/local/bin/R', metavar='', required=False)
+
+    args = vars(parser.parse_args())
+
+    bg_model = BackgroundModel(**args)
+    # bg_model = BackgroundModel(method="FitHiC",  # Background model to be applied
+    #                            file="../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/",
+    #                            # input BED and .matrix files (HiC-Pro contact maps)
+    #                            output="../bin/Data/output/bg_results/",  # output path for BG model
+    #                            rhome="/usr/local/bin/Rscript --vanilla",  # R home
+    #                            scripts="./",  # Scripts path (in order to run FitHiC.R)
+    #                            verbose=True,  # Print log or not?
+    #                            need_bias=True)  # (For FitHiC) need bias file (ICE, KR)?
+    # bg_model.run()

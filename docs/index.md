@@ -21,7 +21,10 @@ HiC-Pack has some main principles:
 - __Python Implementation__: All models are described in Python code, which is compact, easier to debug, and allows for ease of extensibility.
 
 ## Getting Started: A Simple Example
+```bash
 
+./HiC-Pack.bash -i ./data/input/ -o ./data/output -c ../config-hicpack.txt [-s ANALYSIS_STEP] [-p] [-h] [-v]
+```
 ## Support
 Please feel free to ask questions:
 

@@ -105,24 +105,23 @@ fi
 ## Deal with old format
 nbfields=$(head -1 $VALIDPAIRS | awk '{print NF}')
 
-if [[ $nbfields == "12" ]]; then
-    echo -e "HiC-Pack format > 2.7.5 detected ..."
-
-elif [[ $nbfields == "8" ]]; then
-    echo -e "HiC-Pack format < 2.7.6 detected ..."
-    echo -e "Adjusting AllValidPairs format ..."
-    awk '{OFS="\t"; print $0,0,1,42,42}' $VALIDPAIRS > ${TEMP}/$$_format_AllValidPairs
-    VALIDPAIRS=${TEMP}/$$_format_AllValidPairs
-
-else
-    echo -e "Error : unknown format - $nbfields detected, whereas 8 (< v2.7.6) or 12 (> v2.7.5) fields are expected !"
-    exit 1
-fi
+#if [[ $nbfields == "12" ]]; then
+#    echo -e "HiC-Pack format > 2.7.5 detected ..."
+#
+#elif [[ $nbfields == "8" ]]; then
+#    echo -e "HiC-Pack format < 2.7.6 detected ..."
+#    echo -e "Adjusting AllValidPairs format ..."
+#    awk '{OFS="\t"; print $0,0,1,42,42}' $VALIDPAIRS > ${TEMP}/$$_format_AllValidPairs
+#    VALIDPAIRS=${TEMP}/$$_format_AllValidPairs
+#
+#else
+#    echo -e "Error : unknown format - $nbfields detected, whereas 8 (< v2.7.6) or 12 (> v2.7.5) fields are expected !"
+#    exit 1
+#fi
 
 echo "Generating Juicebox input files ..."
 
 if [[ ! -z $RESFRAG ]]; then
- 
     ## The restriction fragment sites file needs to be converted in order to be used in Juicebox command line tool (see attached script). 
     ## They expect one line per chromosome with restriction sites separated by tabs and sorted by coordinate.
     ## Fix bug reported

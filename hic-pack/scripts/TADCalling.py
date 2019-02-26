@@ -48,11 +48,11 @@ if __name__ == '__main__':
     # args = vars(parser.parse_args())
 
     # bg_model = BackgroundModel(**args)
-    bg_model = TADCalling(method="HiCSeg",  # Background model to be applied
-                          file="../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/",
-                          # input BED and .matrix files (HiC-Pro contact maps)
-                          output="../bin/Data/output/bg_results/",  # output path for BG model
-                          rhome="/usr/local/bin/Rscript --vanilla",  # R home
-                          scripts="./",  # Scripts path (in order to run FitHiC.R)
-                          verbose=True)  # Print log or not?
-    bg_model.run()
+    tad_model = TADCalling(method="HiCSeg",  # Background model to be applied
+                           file="../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/",
+                           # input BED and .matrix files (HiC-Pro contact maps)
+                           output="../bin/Data/output/bg_results/",  # output path for BG model
+                           rhome="/usr/local/bin/Rscript --vanilla",  # R home
+                           scripts="./",  # Scripts path (in order to run FitHiC.R)
+                           verbose=True)  # Print log or not?
+    tad_model.run()
