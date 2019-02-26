@@ -1,8 +1,8 @@
 # TAD Calling
 
 TAD Calling algorithms are a set of algorithms which have the task of identification of hierarchical topological domains in Hi-C data.
-There are several algorithms which are supported by HiCPack such as TADTree, TADbit and etc. You can easily set the TAD Calling algorithm you want to use in data using `TAD_ALGORITHM` in HiCPack config file.
-Here are some introductions about some of these algorithms.
+There are several algorithms which are supported by HiCPack such as TADTree, TADbit and etc. You can easily set the TAD Calling algorithm you want to use in data using `TAD_ALGORITHM` in HiCPack config file. The results of TAD Calling algorithms will saved in `hic_results/tad_results` directory.
+Here are some introductions about some of these algorithms. 
 
 ## TADTree
 ![](./pics/TADTree.png)
