@@ -8,7 +8,7 @@
 
 
 SOFT="HiCPack"
-VERSION="0.0.2"
+VERSION="1.0.10"
 
 function usage {
     echo -e "usage : $SOFT -i INPUT -o OUTPUT -c CONFIG [-s ANALYSIS_STEP]"
@@ -178,7 +178,7 @@ fi
 #####################
 
 MAKE_OPTS=$(echo $MAKE_OPTS | sed -e 's/^ //')
-AVAILABLE_STEP_ARRAY=("mapping" "proc_hic" "quality_checks" "merge_persample" "build_contact_maps" "bg_model" "visualization")
+AVAILABLE_STEP_ARRAY=("mapping" "proc_hic" "quality_checks" "merge_persample" "build_contact_maps" "bg_model" "visualization" "tadcalling")
 NEED_BAM_STEP_ARRAY=("proc_hic")
 NEED_VALID_STEP_ARRAY=("merge_persample")
 NEED_ALLVALID_STEP_ARRAY=("build_contact_maps")

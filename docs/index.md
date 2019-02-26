@@ -20,9 +20,30 @@ HiCPack has some main principles:
 
 - __Python Implementation__: All models are described in Python code, which is compact, easier to debug, and allows for ease of extensibility.
 
-## Getting Started: A Simple Example
-```bash
-./HiCPack.bash -i ./data/input/ -o ./data/output -c ../config-hicpack.txt [-s ANALYSIS_STEP] [-p] [-h] [-v]
+## Getting Started: HiCPack Usage
+```text
+HiCPack --help
+  usage : HiC-Pack -i INPUT -o OUTPUT -c CONFIG [-s ANALYSIS_STEP] [-p] [-h] [-v]
+  Use option -h|--help for more information
+
+  HiC-Pack 1.0.10
+  ---------------
+  OPTIONS
+
+   -i|--input INPUT : input data folder; Must contains a folder per sample with input files
+   -o|--output OUTPUT : output folder
+   -c|--conf CONFIG : configuration file for Hi-C processing
+   [-p|--parallel] : if specified run HiC-Pro on a cluster
+   [-s|--step ANALYSIS_STEP] : run only a subset of the HiC-Pro workflow; if not specified the complete workflow is run
+      mapping: perform reads alignment
+      proc_hic: perform Hi-C filtering
+      quality_checks: run Hi-C quality control plots
+      build_contact_maps: build raw inter/intrachromosomal contact maps
+      bg_model: Applies a specific background model to raw contact maps
+      visualization: Provide some visualizations for contact maps
+      tadcalling: Runs a specific TAD Calling algorithm on significant interactions
+   [-h|--help]: help
+   [-v|--version]: version
 ```
 ## Support
 Please feel free to ask questions:
