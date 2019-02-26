@@ -1,0 +1,6 @@
+numpy
+pandas
+matplotlib
+scipy
+bx-python
+pysam

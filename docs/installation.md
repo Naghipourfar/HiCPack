@@ -1,11 +1,11 @@
 ## Installation
 
 The easiest way to get HiCPack is through pip using the following command:
-```python
+```bash
 sudo pip install hicpack
 ```
 If you are using a virtualenv, you may want to avoid using sudo:
-```python
+```bash
 pip install HiCPack
 ```
 This should install all the dependencies in addition to the package.
@@ -15,14 +15,15 @@ This should install all the dependencies in addition to the package.
 You can also get SeqLearner from Github using the following steps:
 First, clone SeqLearner using `git`:
 
-```python
+```bash
 git clone https://github.com/Naghipourfar/HiCPack
 ```
 
 Then, `cd` to the SeqLearner folder and run the install command:
-```python
+```bash
 cd HiCPack
-python setup.py install
+pip install -r requirements
+python setup.py -q install
 ```
 
 On Windows machines you may need to download a C++ compiler if you wish to build from source yourself. 

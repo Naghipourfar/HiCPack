@@ -29,10 +29,10 @@ conda install hicpack
 
 ### Install the development version
 ```bash
-pip install flit
 git clone https://github.com/Naghipourfar/hicpack
 cd hicpack
-flit install
+pip install -r requirements
+python3 setup.py -q install 
 ```
 
 

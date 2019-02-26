@@ -7,5 +7,3 @@ __author__ = ', '.join([
 __email__ = ', '.join([
     'mn7697np@gmail.com'
 ])
-
-__version__ = "1.0.0"
