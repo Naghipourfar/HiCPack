@@ -10,11 +10,11 @@ def get_long_description():
 
 
 setup(name='hicpack',
-      version='1.0.4',
+      version='1.0.10',
       description='An Integrated package for Hi-C Data Analysis',
-      long_description=get_long_description(),
+      long_description=open('README.md').read(),
       long_description_content_type="text/markdown",
-      url='https://github.com/Naghipourfar/HiC-Pack.bash.bash',
+      url='https://github.com/Naghipourfar/HiCPack',
       author='Mohsen Naghipourfar',
       author_email='mn7697np@gmail.com',
       license='MIT',
