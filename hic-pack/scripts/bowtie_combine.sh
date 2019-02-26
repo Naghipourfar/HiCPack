@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## HiC-Pack
+## HiCPack
 ## Author(s): Mohsen Naghipourfar
 ## Contact: mn7697np@gmail.com or naghipourfar@ce.sharif.edu
 ## MIT Licence

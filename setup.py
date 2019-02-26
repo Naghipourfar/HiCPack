@@ -3,12 +3,12 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as fh:
     long_description = fh.readlines()[1]
 
-setup(name='hic-pack',
-      version='0.0.2',
+setup(name='hicpack',
+      version='1.0.0',
       description='An Integrated package for Hi-C Data Analysis',
       long_description=long_description,
       long_description_content_type="text/markdown",
-      url='https://github.com/Naghipourfar/HiC-Pack.bash.bash',
+      url='https://github.com/Naghipourfar/HiCPack',
       author='Mohsen Naghipourfar',
       author_email='mn7697np@gmail.com',
       license='MIT',

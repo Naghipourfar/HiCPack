@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## HiC-Pack
+## HiCPack
 ## Author(s): Mohsen Naghipourfar
 ## Contact: mn7697np@gmail.com or naghipourfar@ce.sharif.edu
 ## This software is distributed without any guarantee under the terms of the GNU General
@@ -65,7 +65,7 @@ mapping_stat(){
     else
 	lmap_reads=0
     fi
-    echo "## HiC-Pack Mapping Statistics"
+    echo "## HiCPack Mapping Statistics"
     echo "## $prefix.mapstat"
     echo -e "total_${tag}\t$tot_reads"
     echo -e "mapped_${tag}\t$map_reads"

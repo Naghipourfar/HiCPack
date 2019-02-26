@@ -1,6 +1,6 @@
 ## Installation
 
-The easiest way to get HiC-Pack is through pip using the following command:
+The easiest way to get HiCPack is through pip using the following command:
 ```python
 sudo pip install hicpack
 ```
@@ -10,7 +10,7 @@ pip install HiCPack
 ```
 This should install all the dependencies in addition to the package.
 
-- __Alternatively: install HiC-Pack from the GitHub source:__
+- __Alternatively: install HiCPack from the GitHub source:__
 
 You can also get SeqLearner from Github using the following steps:
 First, clone SeqLearner using `git`:

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-## HiC-Pack
+## HiCPack
 ## Author(s): Mohsen Naghipourfar
 ## Contact: mn7697np@gmail.com or naghipourfar@ce.sharif.edu
 ## This software is distributed without any guarantee under the terms of the GNU General

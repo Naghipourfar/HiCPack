@@ -1,13 +1,13 @@
 #!/bin/bash
 
-## HiC-Pack
+## HiCPack
 ## Author(s): Mohsen Naghipourfar
 ## Contact: mn7697np@gmail.com or naghipourfar@ce.sharif.edu
 ## This software is distributed without any guarantee under the terms of the GNU General
 ## MIT License
 
 
-SOFT="HiC-Pack"
+SOFT="HiCPack"
 VERSION="0.0.2"
 
 function usage {
@@ -107,7 +107,7 @@ do
 done
 
 if [[ ! -e ${INSTALL_PATH}/config-system.txt ]]; then
-    echo "Error - Installation - config system not detected. Please (re)install HiC-Pack !"
+    echo "Error - Installation - config system not detected. Please (re)install HiCPack !"
     exit -1
 fi
 
@@ -277,7 +277,7 @@ else
 fi
 
 #####################
-## Init HiC-Pack
+## Init HiCPack
 ####################
 if [[ -d $OUTPUT && $MAKE_OPTS == "" ]]; then
     echo "$OUTPUT folder alreads exists. Do you want to overwrite it ? (y/n) [n] : "
@@ -320,7 +320,7 @@ SAMPLE_NAME=$(basename "$SAMPLE_NAME")
 
 
 ##################
-## Run HiC-Pack ##
+## Run HiCPack ##
 ##################
 if [[ -z ${MAKE_OPTS} ]]; then
     MAKE_OPTS="mapping proc_hic quality_checks bg_model visualization"

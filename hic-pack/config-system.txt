@@ -1,5 +1,5 @@
 #######################################################################
-## HiC-Pack - System settings
+## HiCPack - System settings
 #######################################################################
 #######################################################################
 ## Required Software - Specified the DIRECTORY name of the executables
@@ -10,8 +10,8 @@ R_PATH = /Users/Future/anaconda3/bin
 BOWTIE2_PATH = /Users/Future/anaconda3/bin
 SAMTOOLS_PATH = /Users/Future/anaconda3/bin
 PYTHON_PATH = /Users/Future/anaconda3/bin
-INSTALL_PATH = /Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiC-Pack/hic-pack/
-SCRIPTS = /Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiC-Pack/hic-pack/scripts
-SOURCES = /Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiC-Pack/hic-pack/scripts/src
-ANNOT_DIR = /Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiC-Pack/hic-pack/annotation
-CLUSTER_SCRIPT = Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiC-Pack/hic-pack/scripts/make_torque_script.sh
+INSTALL_PATH = /Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiCPack/hicpack/
+SCRIPTS = /Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiCPack/hicpack/scripts
+SOURCES = /Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiCPack/hicpack/scripts/src
+ANNOT_DIR = /Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiCPack/hicpack/annotation
+CLUSTER_SCRIPT = Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiCPack/hicpack/scripts/make_torque_script.sh

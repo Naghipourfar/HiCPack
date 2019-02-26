@@ -1,4 +1,4 @@
-# HiC-Pack [![PyPI version](https://badge.fury.io/py/hic-pack.svg)](https://badge.fury.io/py/hic-pack) [![Build Status](https://travis-ci.org/Naghipourfar/HiC-Pack.svg?branch=master)](https://travis-ci.org/Naghipourfar/HiC-Pack) [![Documentation Status](https://readthedocs.org/projects/hic-pack/badge/?version=latest)](https://hic-pack.readthedocs.io/en/latest/?badge=latest)
+# HiCPack [![PyPI version](https://badge.fury.io/py/hicpack.svg)](https://badge.fury.io/py/hicpack) [![Build Status](https://travis-ci.org/Naghipourfar/HiCPack.svg?branch=master)](https://travis-ci.org/Naghipourfar/HiCPack) [![Documentation Status](https://readthedocs.org/projects/hicpack/badge/?version=latest)](https://hicpack.readthedocs.io/en/latest/?badge=latest)
 
 <img align="center" src="./logo/logo-main.png?raw=true">
 An Integrated package for Hi-C Data Analysis
@@ -19,21 +19,21 @@ An Integrated package for Hi-C Data Analysis
 
 ### Install using pip
 ```bash
-pip install hic-pack
+pip install hicpack
 ```
 
 ### Install using Anaconda
 ```bash
-conda install hic-pack
+conda install hicpack
 ```
 
 
 
 ## File Illustration
 This repo is divided into 3 directories.
- 1. The `hic-pack` directory contains all codes and jupyter notebooks.
- 2. The `hic-pack/data/` directory is place where data is in.
- 3. The `hic-pack/results/` directory contains all results plots, Logs and etc.
+ 1. The `hicpack` directory contains all codes and jupyter notebooks.
+ 2. The `hicpack/data/` directory is place where data is in.
+ 3. The `hicpack/results/` directory contains all results plots, Logs and etc.
 
 
 ## Examples
