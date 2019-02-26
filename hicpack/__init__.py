@@ -1,18 +1,11 @@
-import numpy as np
-import pandas as pd
+"""HiCPack - An Integrated package for Hi-C Data Analysis"""
 
-import tensorflow as tf
-import matplotlib.pyplot as plt
-import keras
+__author__ = ', '.join([
+    'Mohsen Naghipourfar'
+])
 
-from keras.layers import Input, Dense, Dropout, BatchNormalization
-from keras.models import Model
-from keras.callbacks import History, CSVLogger
+__email__ = ', '.join([
+    'mn7697np@gmail.com'
+])
 
-"""
-    Created by Mohsen Naghipourfar on 2018-12-24.
-    Email : mn7697np@gmail.com or naghipourfar@ce.sharif.edu
-    Website: http://ce.sharif.edu/~naghipourfar
-    Github: https://github.com/naghipourfar
-    Skype: mn7697np
-"""
+__version__ = "1.0.0"
