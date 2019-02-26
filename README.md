@@ -27,6 +27,13 @@ pip install hicpack
 conda install hicpack
 ```
 
+### Install the development version
+```bash
+pip install flit
+git clone https://github.com/Naghipourfar/hicpack
+cd hicpack
+flit install
+```
 
 
 ## File Illustration
