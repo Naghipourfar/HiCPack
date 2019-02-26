@@ -6,23 +6,15 @@ build-backend = "flit.buildapi"
 module = "hicpack"
 author = "Mohsen Naghipourfar"
 author-email = "mn7697np@gmail.com"
-home-page = "https://github.com/Naghipourfar/HiCPack"
-description-file = 'README.md'
-classifiers = [
-    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
-]
+home-page = "http://hicpack.readthedocs.io/"
+classifiers = ["License :: OSI Approved :: MIT License"]
+
 requires = [
     "future-fstrings",
-    "get_version",
     "numpy",
+    "scipy",
     "pandas",
     "matplotlib",
-    "scipy",
     "bx-python",
-    "pysam",
-]
-
-[tool.flit.metadata.requires-extra]
-test = [
-    "pytest",
+    "pysam"
 ]
