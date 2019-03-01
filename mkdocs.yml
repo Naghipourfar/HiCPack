@@ -7,7 +7,7 @@ pages:
         - Alignment: alignment.md
         - Raw Contact Maps: raw_map.md
         - BackgroundModel: bg_model.md
-#        - Visualization: visualization.md
+        - Visualization: visualization.md
         - TAD Calling: tad_calling.md
 theme: readthedocs
 repo_url: https://github.com/Naghipourfar/HiCPack
