@@ -178,11 +178,11 @@ fi
 #####################
 
 MAKE_OPTS=$(echo $MAKE_OPTS | sed -e 's/^ //')
-AVAILABLE_STEP_ARRAY=("mapping" "proc_hic" "quality_checks" "merge_persample" "build_contact_maps" "bg_model" "visualization" "tadcalling")
+AVAILABLE_STEP_ARRAY=("mapping" "proc_hic" "quality_checks" "merge_persample" "build_contact_maps" "bg_model" "visualization" "tad_calling")
 NEED_BAM_STEP_ARRAY=("proc_hic")
 NEED_VALID_STEP_ARRAY=("merge_persample")
 NEED_ALLVALID_STEP_ARRAY=("build_contact_maps")
-NEED_MAT_STEP_ARRAY=("bg_model" "visualization")
+NEED_MAT_STEP_ARRAY=("bg_model" "visualization" "tad_calling")
 NEED_FASTQ_STEP_ARRAY=("mapping")
 NEED_ANY_STEP_ARRAY=("quality_checks")
 
@@ -249,24 +249,24 @@ if [[ $NEED_FASTQ == 1 ]]; then
     fi
 
 elif [[ $NEED_BAM == 1 ]]; then
-    nbin=$(find -L $INPUT -mindepth 2 -maxdepth 2 -name "*.bam" | wc -l)
-    nbin_r1=$(find -L $INPUT -mindepth 2 -maxdepth 2 -name "*.bam" -and -name "*${PAIR1_EXT}* | wc -l")
-    nbin_r2=$(find -L $INPUT -mindepth 2 -maxdepth 2 -name "*.bam" -and -name "*${PAIR2_EXT}* | wc -l")
+    nbin=$(find -L $INPUT -mindepth 2 -maxdepth 4 -name "*.bam" | wc -l)
+    nbin_r1=$(find -L $INPUT -mindepth 2 -maxdepth 4 -name "*.bam" -and -name "*${PAIR1_EXT}* | wc -l")
+    nbin_r2=$(find -L $INPUT -mindepth 2 -maxdepth 4 -name "*.bam" -and -name "*${PAIR2_EXT}* | wc -l")
     if [[ $nbin == 0 || $nbin_r1 != $nbin_r2 ]]; then
 	die "Error: Directory Hierarchy of rawdata '$INPUT' is not correct. Paired '.bam' files with ${PAIR1_EXT}/${PAIR2_EXT} are required for '$MAKE_OPTS' step(s)"
     fi
 elif [[ $NEED_VALID == 1 ]]; then
-    nbin=$(find -L $INPUT -mindepth 2 -maxdepth 2 -name "*.validPairs" | wc -l)
+    nbin=$(find -L $INPUT -mindepth 2 -maxdepth 6 -name "*.validPairs" | wc -l)
     if [ $nbin == 0 ]; then
         die "Error: Directory Hierarchy of rawdata '$INPUT' is not correct. No '.validPairs' files detected"
     fi
 elif [[ $NEED_ALLVALID == 1 ]]; then
-    nbin=$(find -L $INPUT -mindepth 2 -maxdepth 2 -name "*.allValidPairs" | wc -l)
+    nbin=$(find -L $INPUT -mindepth 2 -maxdepth 6 -name "*.allValidPairs" | wc -l)
     if [ $nbin == 0 ]; then
         die "Error: Directory Hierarchy of rawdata '$INPUT' is not correct. No '.allValidPairs' files detected"
     fi
 elif [[ $NEED_MAT == 1 ]]; then
-    nbin=$(find -L $INPUT -mindepth 2 -maxdepth 4 -name "*.matrix" | wc -l)
+    nbin=$(find -L $INPUT -mindepth 1 -maxdepth 6 -name "*.matrix" | wc -l)
     if [ $nbin == 0 ]; then
         die "Error: Directory Hierarchy of rawdata '$INPUT' is not correct. No '.matrix' files detected"
     fi
@@ -296,9 +296,9 @@ fi
 ln -s $INPUT $OUTPUT/$RAW_DIR
 
 ## cp config file in output
-if [ ! -e ${OUTPUT}/$(basename ${CONF}) ]; then
-    cp $CONF ${OUTPUT}/$(basename ${CONF})
-fi
+#if [ ! -e ${OUTPUT}/$(basename ${CONF}) ]; then
+cp $CONF ${OUTPUT}/$(basename ${CONF})
+#fi
 
 cd $OUTPUT
 
@@ -314,7 +314,11 @@ if [[ $NEED_FASTQ == 1 ]]; then
     fi
 fi
 
-SAMPLE_NAME=$(find -L ${INPUT} -mindepth 2 -maxdepth 4 -name "*.matrix")
+n_dense=$(find -L $INPUT -mindepth 2 -maxdepth 6 -name "*_dense.matrix" | wc -l)
+if [[ $n_dense -gt 0 ]]; then
+    /bin/rm $(find -L ${INPUT} -mindepth 2 -maxdepth 6 -name "*_dense.matrix")
+fi
+SAMPLE_NAME=$(find -L ${INPUT} -mindepth 2 -maxdepth 6 -name "*.matrix")
 SAMPLE_NAME="${SAMPLE_NAME%_*}"
 SAMPLE_NAME=$(basename "$SAMPLE_NAME")
 

@@ -29,7 +29,8 @@ merge_persample: merge_valid_interactions merge_allstat
 
 quality_checks : hic_qc
 
- build_contact_maps: build_raw_maps
+build_contact_maps: build_raw_maps
+
 
 
 ######################################
@@ -207,7 +208,7 @@ bg_model:
 	@echo "--------------------------------------------"
 	@date
 	@echo "Run Background model for all samples ..."
-	@$(SCRIPTS)/bg_model.sh -c $(CONFIG_FILE)
+	@$(SCRIPTS)/bg_model.sh -c $(CONFIG_FILE) -s $(SAMPLE_NAME) -b $(BIN_SIZE)
 	@echo
 ######################################
 ## Visualization
@@ -217,5 +218,16 @@ visualization:
 	@echo "--------------------------------------------"
 	@date
 	@echo "Run Visualization for all samples ..."
-	@$(SCRIPTS)/visualization.sh -c $(CONFIG_FILE) -s chr6 -n $(SAMPLE_NAME) -r $(BIN_SIZE)
+	@$(SCRIPTS)/visualization.sh -c $(CONFIG_FILE) -n $(SAMPLE_NAME) -r $(BIN_SIZE)
+	@echo
+
+######################################
+## TAD Calling
+##
+######################################
+tad_calling:
+	@echo "--------------------------------------------"
+	@date
+	@echo "Run TAD Calling for all samples ..."
+	@$(SCRIPTS)/tad_calling.sh -c $(CONFIG_FILE) -n $(SAMPLE_NAME) -b $(BIN_SIZE)
 	@echo

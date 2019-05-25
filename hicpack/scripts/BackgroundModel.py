@@ -1,4 +1,5 @@
 import argparse
+import gzip
 import os
 import subprocess
 
@@ -49,17 +50,25 @@ class BackgroundModel(object):
         self.scripts = scripts
         self.verbose = verbose
         self.data = {}
-        self._check_validity()
-        self.prepare_data()
-
         # Optional Arguments for each method
-        self.need_bias = kwargs.get("need_bias", False)
+        if int(kwargs.get("needbias")) == 0:
+            self.need_bias = False
+        else:
+            self.need_bias = True
+        self.sample_name = kwargs.get("samplename")
+        self.bin_size = kwargs.get("binsize")
+
+        self._check_validity()
+        self.get_options()
+        self.prepare_data()
 
     def _check_files(self):
         if self.verbose:
             print("Searching for HiC-Pro contact maps...", end="\t")
         id_matrix = None
         interaction_matrix = None
+        if self.file_path.endswith(".matrix"):
+            self.file_path = os.path.join(*self.file_path.split("/")[:-1]) + "/"
         for file in os.listdir(self.file_path):
             if file.endswith(".bed"):
                 id_matrix = pd.read_csv(self.file_path + file, delimiter="\t", header=None)
@@ -71,6 +80,13 @@ class BackgroundModel(object):
         self.data["interaction"] = interaction_matrix  # HiC-Pro Interactions dataframe
         if self.verbose:
             print("Done")
+
+    def get_options(self):
+        with open("config-hicpack.txt", 'r') as f:
+            lines = f.readlines()
+            for line in lines:
+                if line.__contains__("BG_MODEL_OPTIONS"):
+                    self.options = line[19:]
 
     def _check_validity(self):
         if self.verbose:
@@ -105,18 +121,16 @@ class BackgroundModel(object):
         """
         if self.verbose:
             print("Starting to run " + self.method + "...")
-        command = self.r_home + " " + self.scripts + self.method + ".R"
+        command = f"/Library/Frameworks/Python.framework/Versions/3.6/bin/python3 {self.scripts}{self.method.lower()}/{self.method.lower()}.py"
         if self.method.lower() == "gothic":
             print(command)
             subprocess.call(command)
         elif self.method.lower() == "fithic":
-            print(
-                "/usr/local/bin/Rscript --vanilla ./FitHiC.R -f ../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/FitHiC/FitHiC_Fragments.bed -i ../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/FitHiC/FitHiC_Interactions.bed -o ../bin/Data/output/bg_results/ -p 1 -m 1 -n SRRMohsen -u 250000 -l 10000")
-            command += " -f " + self.file_path + "FitHiC_Fragments.bed" + " -i " + self.file_path + \
-                       "FitHiC_Interactions.bed" + " -o " + self.output + " -p 1 -m 1 -n SRRMohsen -u 250000 -l 10000"  # TODO: change parameter passing to be user friendly
+            if self.need_bias:
+                command += f" -f {self.file_path}FitHiC_Fragments.gz -i {self.file_path}FitHiC_Interactions.gz -o {self.output} -l {self.sample_name} -r {self.bin_size} -t {self.file_path}FitHiC_Bias.afterICE {self.options} "
+            else:
+                command += f" -f {self.file_path}FitHiC_Fragments.gz -i {self.file_path}FitHiC_Interactions.gz -o {self.output} -l {self.sample_name} -r {self.bin_size} {self.options} "
             print(command)
-            # p = subprocess.Popen(command.split(" "), shell=True,
-            #                      stdout=subprocess.PIPE)
             subprocess.call([command], shell=True)
         elif self.method.lower() == "chicago":
             print(command)
@@ -159,8 +173,7 @@ class BackgroundModel(object):
                 self.bias_df = pd.DataFrame()
                 self.bias_df["Chromosome.Name"] = self.data['id'].iloc[:, 0]
                 self.bias_df['Mid.Point'] = (self.data['id'].iloc[:, 1] + self.data['id'].iloc[:, 2]) // 2
-                self.bias_df[
-                    "Bias"] = 1  # TODO:1 (expected amount of count/visibility) (> 1) (higher than expected count) bias < 1 (lower than expected count)
+                self.bias_df["Bias"] = 1
                 self.bias_df.to_csv(self.file_path + self.method + "_Bias.afterICE", index=None, sep="\t", header=False)
         elif self.method.lower() == "gothic":
             # Creating Restriction file (TODO: has to be reconsidered!)
@@ -188,20 +201,18 @@ if __name__ == '__main__':
     required_group.add_argument('-f', '--file', help='', metavar='', required=True)
     required_group.add_argument('-m', '--method', help='', metavar='', required=True)
     required_group.add_argument('-o', '--output', default='', metavar='', required=True)
+    required_group.add_argument('-n', '--samplename', default='SRRMohsen', metavar='', required=True)
+    required_group.add_argument('-b', '--binsize', default=100000, metavar='', required=True)
+    required_group.add_argument('-a', '--needbias', default=0, metavar='', required=True)
+
 
     optional_group = parser.add_argument_group("Optional Parameters")
-    optional_group.add_argument('-r', '--rhome', default='/usr/local/bin/R', metavar='', required=False)
-    optional_group.add_argument('-s', '--scripts', default='/usr/local/bin/R', metavar='', required=False)
+    optional_group.add_argument('-r', '--rhome', default='/usr/local/bin/Rscript --vanilla', metavar='',
+                                required=False)
+    optional_group.add_argument('-s', '--scripts', default='./', metavar='', required=False)
 
     args = vars(parser.parse_args())
 
     bg_model = BackgroundModel(**args)
-    # bg_model = BackgroundModel(method="FitHiC",  # Background model to be applied
-    #                            file="../bin/Data/output/hic_results/matrix/SRR442155/raw/20000/",
-    #                            # input BED and .matrix files (HiC-Pro contact maps)
-    #                            output="../bin/Data/output/bg_results/",  # output path for BG model
-    #                            rhome="/usr/local/bin/Rscript --vanilla",  # R home
-    #                            scripts="./",  # Scripts path (in order to run FitHiC.R)
-    #                            verbose=True,  # Print log or not?
-    #                            need_bias=True)  # (For FitHiC) need bias file (ICE, KR)?
-    # bg_model.run()
+    bg_model.run()
+    print("Background Model has been finished")

@@ -757,11 +757,14 @@ def HiCplotter(files=[], names=[], resolution=100000, chromosome='', output='', 
         ax1.set_title(('%s') % (name))
         if exp == 0:
             if not randomBins and not wholeGenome:
-                ax1.set_ylabel('log2(interaction matrix) - %s Mb (resolution: %sKb)' % (chromosome, resolution / 1000))
+                if notLog:
+                    ax1.set_ylabel('interaction matrix - %s Mb (resolution: %sKb)' % (chromosome, resolution / 1000))
+                else:
+                    ax1.set_ylabel('log2(interaction matrix) - %s Mb (resolution: %sKb)' % (chromosome, resolution / 1000))
             elif randomBins:
                 ax1.set_ylabel('log2(interaction matrix) - %s (Genomic Bins)' % (chromosome))
             elif wholeGenome:
-                ax1.set_ylabel('')
+                ax1.set_ylabel('Whole Genome plot')
             with np.errstate(divide='ignore'):
                 cmatrix = log2(pow(2, ceil(log2(max(matrix)) / log2(2))))
             if matrixMax != 0: cmatrix = matrixMax
@@ -889,7 +892,7 @@ def HiCplotter(files=[], names=[], resolution=100000, chromosome='', output='', 
         elif numOfrows <= rowcounter and randomBins:
             ax1.set_xlabel('Chromosome %s (Genomic Bins)' % (schr))
         elif numOfrows <= rowcounter and wholeGenome:
-            ax1.set_xlabel('')
+            ax1.set_xlabel('resolution: %sKb' % (resolution / 1000))
             cax = divider.append_axes("bottom", size="2.5%", pad=0.9)
             cbar = plt.colorbar(img, cax=cax, ticks=MultipleLocator(2.0), format="%.1f", orientation='horizontal',
                                 extendfrac='auto', spacing='uniform')

@@ -21,7 +21,6 @@ do
     case "$1" in
 	(-c) conf_file=$2; shift;;
 	(-h) usage;;
-	(-s) CHR=$2; shift;;
 	(-n) SAMPLE_NAME=$2; shift;;
 	(-r) RESOLUTION=$2; shift;;
 	(--) shift; break;;
@@ -42,7 +41,7 @@ INPUT_DIR=${MAPC_OUTPUT}/matrix/
 
 mkdir -p ${OUTPUT_DIR}
 
-MAT_FILE=$(find -L ${DATA_DIR} -mindepth 1 -maxdepth 4 -name "${SAMPLE_NAME}_${RESOLUTION}.matrix")
-BED_FILE=$(find -L ${DATA_DIR} -mindepth 1 -maxdepth 4 -name "${SAMPLE_NAME}_${RESOLUTION}_abs.bed")
+MAT_FILE=$(find -L ${DATA_DIR} -mindepth 1 -maxdepth 6 -name "${SAMPLE_NAME}_${RESOLUTION}.matrix")
+BED_FILE=$(find -L ${DATA_DIR} -mindepth 1 -maxdepth 6 -name "${SAMPLE_NAME}_${RESOLUTION}_abs.bed")
 
-python ${dir}/Visualization/HiCPlotter.py -f ${INPUT_DIR}/${SAMPLE_NAME}/raw/${RESOLUTION}/${SAMPLE_NAME}_${RESOLUTION}.matrix -n ${SAMPLE_NAME} -chr ${CHR} -o ${OUTPUT_DIR}/${SAMPLE_NAME} -tri 1 -ext pdf -bed ${INPUT_DIR}/${SAMPLE_NAME}/raw/${RESOLUTION}/${SAMPLE_NAME}_${RESOLUTION}_abs.bed
+python ${dir}/Visualization/HiCPlotter.py -f ${INPUT_DIR}/${SAMPLE_NAME}/raw/${RESOLUTION}/${SAMPLE_NAME}_${RESOLUTION}.matrix -tri 1 -n ${SAMPLE_NAME} -o ${OUTPUT_DIR}/${SAMPLE_NAME} -ext pdf -bed ${INPUT_DIR}/${SAMPLE_NAME}/raw/${RESOLUTION}/${SAMPLE_NAME}_${RESOLUTION}_abs.bed ${VIS_OPTIONS}

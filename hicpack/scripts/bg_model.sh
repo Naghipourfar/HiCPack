@@ -21,6 +21,8 @@ do
     case "$1" in
 	(-c) conf_file=$2; shift;;
 	(-h) usage;;
+	(-s) SAMPLE_NAME=$2; shift;;
+	(-b) BIN_SIZE=$2; shift;;
 	(--) shift; break;;
 	(-*) echo "$0: error - unrecognized option $1" 1>&2; exit 1;;
 	(*)  break;;
@@ -32,10 +34,12 @@ done
 ##read_config $conf_file
 CONF=${conf_file} . ${dir}/hic.inc.sh
 
-DATA_DIR=${MAPC_OUTPUT}/matrix/
+DATA_DIR=${MAPC_OUTPUT}/matrix
 
 
-BED_FILES=$(find -L $DATA_DIR -mindepth 1 -maxdepth 4 -name "*.matrix")
+MAT_FILES=$(find -L $DATA_DIR -mindepth 1 -maxdepth 4 -name "*.matrix")
+BED_FILES=$(find -L $DATA_DIR -mindepth 1 -maxdepth 4 -name "*.bed")
+
 
 ## Apply Background model
 # echo 'Please choose background model:'
@@ -55,7 +59,16 @@ BED_FILES=$(find -L $DATA_DIR -mindepth 1 -maxdepth 4 -name "*.matrix")
 mkdir -p ${BG_DIR}
 OUTPUT_DIR=${BG_DIR}/
 
-for BED_FILE in ${BED_FILES}
+for i in ${!MAT_FILES[@]}
 do
-    python ${dir}/BackgroundModel.py -f ${BED_FILE} -o ${OUTPUT_DIR} -m ${BG_MODEL}
+    if [[ ${BG_MODEL} -eq "FitHiC" ]]; then
+        BED_FILE="${BED_FILES[$i]}"
+        MAT_FILE="${MAT_FILES[$i]}"
+        python ${dir}/utils/HiCPack2FitHiC.py -i ${MAT_FILE} -b ${BED_FILE} -o ${MAPC_OUTPUT}/matrix/${SAMPLE_NAME}/raw/${BIN_SIZE}/ -r ${BIN_SIZE}
+    fi
+done
+
+for MAT_FILE in ${MAT_FILES}
+do
+    python ${dir}/BackgroundModel.py -f ${MAT_FILE} -o ${OUTPUT_DIR} -m ${BG_MODEL} -n ${SAMPLE_NAME} -b ${BIN_SIZE} -s ${dir}/ -a 0
 done

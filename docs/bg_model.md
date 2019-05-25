@@ -3,6 +3,13 @@ Background models are tools for statistical confidence estimates to chromosomal 
 There is a wrapper python class for all background models which called `BackgroundModel`. You can find the usage and its API later on this web-page.
 Here is some introduction about the methods which are supported in HiCPack.
 
+## MaxHiC
+
+MaxHiC is another tool for using in background model step.
+You can easily use MaxHiC in background model step by setting the `BG_MODEL` parameter in HiCPack config file.
+
+
+
 ## FitHiC
 
 Fit-Hi-C was initially developed by Ferhat Ay, Timothy Bailey, and William Noble January 19th, 2014. It is currently maintained and updated by Ferhat Ay (ferhatay@lji.org) and Arya Kaul (akaul@lji.org) at the Ay Lab in the La Jolla Institute for Allergy and Immunology.
@@ -45,9 +52,4 @@ You can easily use FitHiC in background model step by setting the `BG_MODEL` par
 GOTHiC is a Hi-C analysis package using a cumulative binomial test to detect interactions between distal genomic loci that have significantly more reads than expected by chance in Hi-C experiments. It takes mapped paired NGS reads as input and gives back the list of significant interactions for a given bin size in the genome.
 
 You can easily use GOTHiC in background model step by setting the `BG_MODEL` parameter in HiCPack config file.
-
-## MaxHiC
-
-MaxHiC is another tool for using in background model step.
-You can easily use MaxHiC in background model step by setting the `BG_MODEL` parameter in HiCPack config file.
 

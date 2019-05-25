@@ -26,7 +26,7 @@ abspath() {
 
 filter_config()
 {
-    sed -e 's/#.*//' | egrep '^[ \t]*[a-zA-Z_][a-zA-Z0-9_]*[ \t]*:?=' | sed -e 's/[ \t]*:=[ \t]*/ :=/' -e 's/[ \t][^:]*=[ \t]*/ =/' -e 's/\([^ \t]*\)=/\1 =/' -e 's/ *$//g' | sort -u -k 1b,1
+    sed -e 's/#.*//' | egrep '^[ \t]*[a-zA-Z_][a-zA-Z0-9_]*[ \t]*:?=' | sed -e 's/[ \t]*:=[ \t]*/ :=/' -e 's/[ \t][^:]*=[ \t]/ =/' -e 's/\([^ \t]*\)=/\1 =/' -e 's/ *$//g' | sort -u -k 1b,1
 }
 
 read_config()
@@ -38,6 +38,7 @@ read_config()
     cat $conf | filter_config > $tmpfile2
 
     eval "$(join $tmpfile1 $tmpfile2 | awk -F' =' '{printf("%s=\"%s\"; export %s;\n", $1, $2, $1)}')"
+
 
     ## Define BOWTIE outputs
     BOWTIE2_IDX=${BOWTIE2_IDX_PATH}/${REFERENCE_GENOME}; export BOWTIE2_IDX

@@ -16,8 +16,8 @@ TAD_DIR = tad_results
 #######################################################################
 ## SYSTEM AND SCHEDULER - Start Editing Here !!
 #######################################################################
-N_CPU = 4
-LOGFILE = hicpro.log
+N_CPU = 6
+LOGFILE = hicpack.log
 
 JOB_NAME =
 JOB_MEM =
@@ -36,7 +36,7 @@ PAIR2_EXT = _2
 ## Alignment options
 #######################################################################
 
-MIN_MAPQ = 10
+MIN_MAPQ = 0
 
 BOWTIE2_IDX_PATH = /Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiCPack/hicpack/bin/indexes/
 BOWTIE2_GLOBAL_OPTIONS = --very-sensitive -L 30 --score-min L,-0.6,-0.2 --end-to-end --reorder
@@ -68,10 +68,10 @@ REPORT_CAPTURE_REPORTER = 1
 
 GENOME_FRAGMENT = HindIII_resfrag_hg19.bed
 LIGATION_SITE = AAGCTAGCTT
-MIN_FRAG_SIZE =
-MAX_FRAG_SIZE =
-MIN_INSERT_SIZE =
-MAX_INSERT_SIZE =
+MIN_FRAG_SIZE = 100
+MAX_FRAG_SIZE = 100000
+MIN_INSERT_SIZE = 100
+MAX_INSERT_SIZE = 600
 
 #######################################################################
 ## Hi-C processing
@@ -88,7 +88,7 @@ RM_DUP = 1
 ## Contact Maps
 #######################################################################
 
-BIN_SIZE = 1000000
+BIN_SIZE = 100000
 MATRIX_FORMAT = upper
 
 #######################################################################
@@ -100,16 +100,19 @@ FILTER_HIGH_COUNT_PERC = 0
 EPS = 0.1
 
 #######################################################################
-## Background Models
+## Background Correction
 #######################################################################
 BG_MODEL = FitHiC
+BG_MODEL_OPTIONS = -p 1 -m 1 -U 250000 -L 10000
 
 #######################################################################
 ## Visualization
 #######################################################################
 VIS_METHOD = HiCPlotter
+VIS_OPTIONS = -chr chr6 -hmc 3 -da 0 -r 100000 -nl 1
 
 #######################################################################
-## Visualization
+## TAD Calling
 #######################################################################
-TAD_ALGORITHM = TADTree
+TAD_ALGORITHM = HiCSeg
+TAD_OPTIONS = -n 5 -d B -m D
