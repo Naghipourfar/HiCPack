@@ -6,12 +6,13 @@
 ## If not specified, the program will try to locate the executable
 ## using the 'which' command
 #######################################################################
-R_PATH = /Users/Future/anaconda3/bin
-BOWTIE2_PATH = /Users/Future/anaconda3/bin
-SAMTOOLS_PATH = /Users/Future/anaconda3/bin
-PYTHON_PATH = /Users/Future/anaconda3/bin
-INSTALL_PATH = /Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiCPack/hicpack/
-SCRIPTS = /Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiCPack/hicpack/scripts
-SOURCES = /Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiCPack/hicpack/scripts/src
-ANNOT_DIR = /Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiCPack/hicpack/annotation
-CLUSTER_SCRIPT = Users/Future/Desktop/Fall-2018/Research-Interests/Bioinformatics/HiCPack/hicpack/scripts/make_torque_script.sh
+R_PATH = /usr/bin
+BOWTIE2_PATH = /usr/bin
+SAMTOOLS_PATH = /usr/bin
+PYTHON_PATH = /usr/bin
+SRATOOLKIT_PATH = /usr/bin
+INSTALL_PATH = /home/<USERNAME>/HiCPack/hicpack/
+SCRIPTS = /home/<USERNAME>/HiCPack/hicpack/scripts
+SOURCES = /home/<USERNAME>/HiCPack/hicpack/scripts/src
+ANNOT_DIR = /home/<USERNAME>/HiCPack/hicpack/annotation
+CLUSTER_SCRIPT = /home/<USERNAME>/HiCPack/hicpack/scripts/make_torque_script.sh
