@@ -247,7 +247,7 @@ fi
 
 ## Check rawdata structure
 if [[ $NEED_SRA  == 1 ]]; then
-    exec_cmd "${SRATOOLKIT_PATH}/fastq-dump $SRA_NUMBER -I --split-files --outdir $INPUT/$SRA_NUMBER/"
+    exec_cmd "${SRATOOLKIT_PATH}/fastq-dump $SRA_NUMBER -I --split-files --outdir ${INPUT}/${SRA_NUMBER}/"
     NEED_FASTQ=1
 fi
 
