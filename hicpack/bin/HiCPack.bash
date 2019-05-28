@@ -25,6 +25,7 @@ function help {
     echo "   -i|--input INPUT : input data folder; Must contains a folder per sample with input files"
     echo "   -o|--output OUTPUT : output folder"
     echo "   -c|--conf CONFIG : configuration file for Hi-C processing"
+    echo "   -r|--sra SRA_NUMBER : SRR number to fetch for Hi-C processing"
     echo "   [-p|--parallel] : if specified run $SOFT on a cluster"
     echo "   [-s|--step ANALYSIS_STEP] : run only a subset of the $SOFT workflow; if not specified the complete workflow is run"
     echo "      mapping: perform reads alignment - require fast files"
@@ -76,6 +77,7 @@ for arg in "$@"; do
       "--output") set -- "$@" "-o" ;;
       "--conf")   set -- "$@" "-c" ;;
       "--step")   set -- "$@" "-s" ;;
+      "--sra")   set -- "$@" "-r" ;;
       "--parallel")   set -- "$@" "-p" ;;
       "--help")   set -- "$@" "-h" ;;
       "--version")   set -- "$@" "-v" ;;
@@ -83,13 +85,14 @@ for arg in "$@"; do
   esac
 done
 
-while getopts ":i:o:c:s:pvh" OPT
+while getopts ":i:o:c:s:r:pvh" OPT
 do
     case $OPT in
 	i) INPUT=$OPTARG;;
 	o) OUTPUT=$OPTARG;;
 	c) CONF=$OPTARG;;
 	s) MAKE_OPTS="$MAKE_OPTS $OPTARG";;
+	r) SRA_NUMBER="$OPTARG";;
 	p) CLUSTER=1 ;;
 	v) version ;;
 	h) help ;;
@@ -178,13 +181,14 @@ fi
 #####################
 
 MAKE_OPTS=$(echo $MAKE_OPTS | sed -e 's/^ //')
-AVAILABLE_STEP_ARRAY=("mapping" "proc_hic" "quality_checks" "merge_persample" "build_contact_maps" "bg_model" "visualization" "tad_calling")
+AVAILABLE_STEP_ARRAY=("mapping" "proc_hic" "quality_checks" "merge_persample" "build_contact_maps" "bg_model" "visualization" "tad_calling" "fetch_data")
 NEED_BAM_STEP_ARRAY=("proc_hic")
 NEED_VALID_STEP_ARRAY=("merge_persample")
 NEED_ALLVALID_STEP_ARRAY=("build_contact_maps")
 NEED_MAT_STEP_ARRAY=("bg_model" "visualization" "tad_calling")
 NEED_FASTQ_STEP_ARRAY=("mapping")
 NEED_ANY_STEP_ARRAY=("quality_checks")
+NEED_ANY_SRA_NUMBERS=("fetch_data")
 
 
 NEED_BAM=0
@@ -193,6 +197,7 @@ NEED_ALLVALID=0
 NEED_MAT=0
 NEED_FASTQ=0
 NEED_ANY=0
+NEED_SRA=0
 
 
 if [[ $MAKE_OPTS != "" ]]; then
@@ -227,6 +232,10 @@ if [[ $MAKE_OPTS != "" ]]; then
         for i in ${NEED_ANY_STEP_ARRAY[@]}; do
             if [[ "$i" == "$s" ]]; then NEED_ANY=1; fi
         done
+
+        for i in ${NEED_ANY_SRA_NUMBERS[@]}; do
+            if [[ "$i" == "$s" ]]; then NEED_SRA=1; fi
+        done
     done
 else
     NEED_FASTQ=1
@@ -237,6 +246,10 @@ fi
 #####################
 
 ## Check rawdata structure
+if [[ $NEED_SRA  == 1 ]]; then
+    exec_cmd "fastq-dump $SRA_NUMBER -I --split-files --outdir $INPUT/$SRA_NUMBER/"
+    NEED_FASTQ=1
+
 if [[ $NEED_FASTQ == 1 ]]; then
     nbin=$(find -L $INPUT -mindepth 2 -maxdepth 2 -name "*.fastq" -o -name "*.fastq.gz" | wc -l)
     nbin_r1=$(find -L $INPUT -mindepth 2 -maxdepth 2 -name "*.fastq*" -and -name "*${PAIR1_EXT}*" | wc -l)
