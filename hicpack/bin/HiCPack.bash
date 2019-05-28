@@ -249,6 +249,7 @@ fi
 if [[ $NEED_SRA  == 1 ]]; then
     exec_cmd "fastq-dump $SRA_NUMBER -I --split-files --outdir $INPUT/$SRA_NUMBER/"
     NEED_FASTQ=1
+fi
 
 if [[ $NEED_FASTQ == 1 ]]; then
     nbin=$(find -L $INPUT -mindepth 2 -maxdepth 2 -name "*.fastq" -o -name "*.fastq.gz" | wc -l)
